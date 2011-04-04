@@ -1,0 +1,9 @@
+*
+!*.h
+!*.c
+!.gitignore
+![Mm]akefile
+!src/
+!test/
+!doc/
+!bin/
