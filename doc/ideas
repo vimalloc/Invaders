@@ -1,0 +1,49 @@
+Current Development (sprint)
+----------------------------
+    Print error message if something goes wrong
+
+    Let the player move his 'ship' around the game board
+        -Figure out how many times game should update a second
+
+
+All ideas that might be incorporated into this game
+---------------------------------------------------
+    Debugging
+        -Catch signals
+
+    Set up aliens
+        -Have them move
+        -Have them attack
+
+    Gun/ship upgrades and powerups
+        -Extra lives
+        -Extra armor
+        -Guns upgrades
+        -Different guns
+        -Guns do different amounts of damage
+        -Different types of ships (faster, definsive, offensive, etc)
+
+    Custom key bindings
+
+    Advanced aliends
+        -Different bad guys
+        -Different alien AI's
+        -Boss fights
+
+    Game state
+        -Saving the game
+        -Pausing the game
+        -Scoring system
+        -Different game modes
+        -Different dificulities
+        -Various themes (different pics for ships, etc)
+
+    Interpolation
+
+    Multiplayer support
+        -On the same keyboard, controlling different ships
+        -Over the internet, controlling different ships
+
+    Sound
+
+    A way to update the game online
