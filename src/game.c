@@ -84,9 +84,18 @@ static void game_process_movement(game *g)
     printf("%i %i \n", g->state->player_ship->xpos, g->state->player_ship->ypos);
 }
 
+static void game_draw_player(ship* player)
+{
+
+}
+
 static void game_update_display(game *g, float interpolation)
 {
-    /* TODO */
+    /* redraw the players ship, and mark it as unchanged */
+    if(g->state->player_changed) {
+        g->state->player_changed = 0;
+        game_draw_player(g->state->player_ship);
+    }
 }
 
 int game_init(game *g)

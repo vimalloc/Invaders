@@ -14,6 +14,7 @@ int game_state_init(game_state* state, int xmax, int ymax)
 
     state->xmax = xmax;
     state->ymax = ymax;
+    state->player_changed = 0;
 
     return GAME_SUCCESS;
 }
@@ -35,7 +36,7 @@ void game_state_move_up(game_state* state)
     if(state->player_ship->ypos < 0)
         state->player_ship->ypos = 0;
 
-    /* Mark that this ships position has changed */
+    state->player_changed = 1;
 }
 
 void game_state_move_down(game_state* state)
@@ -48,7 +49,7 @@ void game_state_move_down(game_state* state)
     if(state->player_ship->ypos > state->ymax)
         state->player_ship->ypos = state->ymax;
 
-    /* Mark that this ships position has changed */
+    state->player_changed = 1;
 }
 
 void game_state_move_left(game_state* state)
@@ -61,7 +62,7 @@ void game_state_move_left(game_state* state)
     if(state->player_ship->xpos < 0)
         state->player_ship->xpos = 0;
 
-    /* Mark that this ships position has changed */
+    state->player_changed = 1;
 }
 
 void game_state_move_right(game_state* state)
@@ -74,5 +75,5 @@ void game_state_move_right(game_state* state)
     if(state->player_ship->xpos > state->xmax)
         state->player_ship->xpos = state->xmax;
 
-    /* Mark that this ships position has changed */
+    state->player_changed = 1;
 }

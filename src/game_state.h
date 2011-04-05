@@ -11,9 +11,10 @@
 
 /* Handle for the game state object */
 typedef struct {
-    ship* player_ship; /* The player controlled ship */
-    int xmax;          /* The max x position on the playing grid */
-    int ymax;          /* The max y position on the playing grid */
+    ship* player_ship;  /* The player controlled ship */
+    int player_changed; /* Tracks if the players ship has changed */
+    int xmax;           /* The max x position on the playing grid */
+    int ymax;           /* The max y position on the playing grid */
 } game_state;
 
 /**
@@ -42,7 +43,5 @@ void game_state_move_up(game_state* state);
 void game_state_move_down(game_state* state);
 void game_state_move_left(game_state* state);
 void game_state_move_right(game_state* state);
-
-/* TODO - Get a list of every ship that has changed and needs to be redrawn */
 
 #endif
