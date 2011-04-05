@@ -55,7 +55,7 @@ int game_init(game *g)
         return ERR_MALLOC;
 
     if(game_sdl_init(g) < 0)
-        return ERR_SDL;
+        return ERR_SDL_INIT;
 
     return GAME_SUCCESS;
 }
