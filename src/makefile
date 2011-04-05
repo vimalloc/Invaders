@@ -13,5 +13,8 @@ game.o : game.h game.c
 errors.o : errors.h errors.c
 	$(CC) $(CPPFLAGS) -c errors.c
 
-Invaders : game.o errors.o
-	$(CC) $(CPPFLAGS) game.o errors.o -lSDL
+ship.o : ship.h ship.c
+	$(CC) $(CPPFLAGS) -c ship.c
+
+Invaders : game.o errors.o ship.o
+	$(CC) $(CPPFLAGS) game.o errors.o ship.o -lSDL
