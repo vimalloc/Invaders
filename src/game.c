@@ -7,15 +7,18 @@
 #define ERR_MALLOC -1
 #define GAME_SUCCESS 0
 
-/* How many times per second we want to update the game state */
-static const unsigned int TICKS_PER_SECOND = 60;
+/* Screen and game state update settings */
+enum
+{
+    /* How many times per second we want to update the game state */
+    TICKS_PER_SECOND = 60,
 
-/* Milliseconds between when each game state update should occur */
-/*static const unsigned int SKIP_TICKS = 1000 / TICKS_PER_SECOND;*/
-static const unsigned int SKIP_TICKS = 1000 / 60;
+    /* Milliseconds between when each game state update should occur */
+    SKIP_TICKS = 1000 / TICKS_PER_SECOND,
 
-/* The maximum number of frames that can be skipped */
-static const unsigned MAX_FRAMESKIP = 10;
+    /* The maximum number of frames that can be skipped */
+    MAX_FRAMESKIP = 10,
+};
 
 
 static int game_sdl_init(game *g)
@@ -45,6 +48,7 @@ static void game_handle_input(game *g)
 
 static void game_update_display(game *g, float interpolation)
 {
+    /* TODO */
 }
 
 int game_init(game *g)
@@ -120,6 +124,5 @@ int main()
 
     game_free(g);
     free(g);
-    return 4;
-    /*return GAME_SUCCESS;*/
+    return GAME_SUCCESS;
 }
