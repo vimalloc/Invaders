@@ -104,20 +104,15 @@ int game_start(game *g)
 
 int main()
 {
-    game *g;
     int error;
+    game g;
 
-    g = (game *) malloc(sizeof(game));
-
-    error = game_init(g);
-    if(error < 0)
+    if((error = game_init(&g)) < 0)
         return error;
 
-    error = game_start(g); /* main loop */
-    if(error < 0)
+    if((error = game_start(&g)) < 0) /* main loop */
         return error;
 
-    game_free(g);
-    free(g);
+    game_free(&g);
     return GAME_SUCCESS;
 }
