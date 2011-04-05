@@ -14,4 +14,12 @@ enum {
     ERR_SDL_INIT = -11, /* Error with initialing SDL */
 };
 
+/**
+* Gets the string assosicated with this error code
+*
+* @param errcode The error code to get the string of
+* @return A char* containging the string assosicated with this error code
+*/
+const char* err_string(int errcode);
+
 #endif

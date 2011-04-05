@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <stdio.h>
 
 #include "game.h"
 #include "errors.h"
@@ -107,11 +108,16 @@ int main()
     int error;
     game g;
 
-    if((error = game_init(&g)) < 0)
+    if((error = game_init(&g)) < 0) {
+        printf("%s \n", err_string(error));
         return error;
+    }
 
-    if((error = game_start(&g)) < 0) /* main loop */
+    /* main loop */
+    if((error = game_start(&g)) < 0) {
+        printf("%s \n", err_string(error));
         return error;
+    }
 
     game_free(&g);
     return GAME_SUCCESS;

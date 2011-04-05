@@ -10,5 +10,8 @@ clean :
 game.o : game.h game.c
 	$(CC) $(CPPFLAGS) -c game.c -lSDL
 
-Invaders : game.o
-	$(CC) $(CPPFLAGS) game.o -lSDL
+errors.o : errors.h errors.c
+	$(CC) $(CPPFLAGS) -c errors.c
+
+Invaders : game.o errors.o
+	$(CC) $(CPPFLAGS) game.o errors.o -lSDL
