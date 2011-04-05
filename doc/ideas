@@ -1,9 +1,13 @@
 Current Development (sprint)
 ----------------------------
-    Print error message if something goes wrong
-
     Let the player move his 'ship' around the game board
-        -Figure out how many times game should update a second
+        -Create some sort of game state object seperate from the other stuff
+            -Currently this should just have the position of the players ship. Every
+             time through the game loop if an arrow key is pressed it should update
+             the players position on the game state, and the draw function should
+             draw everything that has changed in the game state
+            -Ship object
+        -Figure out how many times game should update a second for smooth gameplay
 
 
 All ideas that might be incorporated into this game
