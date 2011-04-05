@@ -1,15 +1,10 @@
 #include <assert.h>
 
 #include "game.h"
-
-#define ERR_SDL_INIT -11
-#define ERR_SDL -10
-#define ERR_MALLOC -1
-#define GAME_SUCCESS 0
+#include "errors.h"
 
 /* Screen and game state update settings */
-enum
-{
+enum {
     /* How many times per second we want to update the game state */
     TICKS_PER_SECOND = 60,
 
