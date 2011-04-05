@@ -14,6 +14,12 @@ enum {
 
     /* The maximum number of frames that can be skipped */
     MAX_FRAMESKIP = 10,
+
+    /* Width of the screen for the playable game area */
+    GAME_WIDTH = 640,
+
+    /* Height of the screen for the playable game area */
+    GAME_HEIGHT = 480,
 };
 
 
@@ -22,8 +28,8 @@ static int game_sdl_init(game *g)
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
         return ERR_SDL_INIT;
 
-    if((g->surface = SDL_SetVideoMode(640, 480, 32, SDL_HWSURFACE |
-                    SDL_DOUBLEBUF)) == NULL)
+    if((g->surface = SDL_SetVideoMode(GAME_WIDTH, GAME_HEIGHT, 32,
+                     SDL_HWSURFACE | SDL_DOUBLEBUF)) == NULL)
         return ERR_SDL_INIT;
 
     return GAME_SUCCESS;
@@ -39,7 +45,43 @@ static void game_handle_input(game *g)
     while(SDL_PollEvent(g->event)) {
         if(g->event->type == SDL_QUIT)
             game_stop(g);
+
+        else if(g->event->type == SDL_KEYDOWN) {
+            if(g->event->key.keysym.sym == SDLK_UP)
+                g->up_button = 1;
+            if(g->event->key.keysym.sym == SDLK_DOWN)
+                g->down_button = 1;
+            if(g->event->key.keysym.sym == SDLK_LEFT)
+                g->left_button = 1;
+            if(g->event->key.keysym.sym == SDLK_RIGHT)
+                g->right_button = 1;
+        }
+
+        else if(g->event->type == SDL_KEYUP) {
+            if(g->event->key.keysym.sym == SDLK_UP)
+                g->up_button = 0;
+            if(g->event->key.keysym.sym == SDLK_DOWN)
+                g->down_button = 0;
+            if(g->event->key.keysym.sym == SDLK_LEFT)
+                g->left_button = 0;
+            if(g->event->key.keysym.sym == SDLK_RIGHT)
+                g->right_button = 0;
+        }
     }
+}
+
+static void game_process_movement(game *g)
+{
+    if(g->up_button)
+        game_state_move_up(g->state);
+    if(g->down_button)
+        game_state_move_down(g->state);
+    if(g->left_button)
+        game_state_move_left(g->state);
+    if(g->right_button)
+        game_state_move_right(g->state);
+
+    printf("%i %i \n", g->state->player_ship->xpos, g->state->player_ship->ypos);
 }
 
 static void game_update_display(game *g, float interpolation)
@@ -51,13 +93,18 @@ int game_init(game *g)
 {
     assert(g);
 
+    g->up_button = 0;
+    g->down_button = 0;
+    g->left_button = 0;
+    g->right_button = 0;
+
     if((g->event = (SDL_Event *) malloc(sizeof(SDL_Event))) == NULL)
         return ERR_MALLOC;
 
     if((g->state = (game_state *) malloc(sizeof(game_state))) == NULL)
         return ERR_MALLOC;
 
-    if(game_state_init(g->state) < 0)
+    if(game_state_init(g->state, GAME_WIDTH, GAME_HEIGHT) < 0)
         return ERR_MALLOC;
 
     if(game_sdl_init(g) < 0)
@@ -98,6 +145,7 @@ int game_start(game *g)
 
         while(SDL_GetTicks() > next_game_tick && frame_skip <= MAX_FRAMESKIP) {
             game_handle_input(g);
+            game_process_movement(g);
             next_game_tick += SKIP_TICKS;
             frame_skip++;
         }

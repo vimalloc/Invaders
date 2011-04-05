@@ -14,6 +14,10 @@
 /* Hanlde for the game logic */
 typedef struct {
     volatile int running; /* Controls starting and stopping of a game */
+    int up_button;        /* Tracks if the up mouse button is pressed */
+    int down_button;      /* Tracks if the down mouse button is pressed */
+    int left_button;      /* Tracks if the left mouse button is pressed */
+    int right_button;     /* Tracks if the right mouse button is pressed */
     game_state *state;    /* The underlying state of the current game */
     SDL_Surface *surface; /* The surface where this game will be drawn */
     SDL_Event *event;     /* Event handler for SDL */
