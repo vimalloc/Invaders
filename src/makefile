@@ -7,7 +7,7 @@ clean :
 	rm Invaders *.o
 
 game.o : game.h game.c
-	$(CC) $(CPPFLAGS) -c game.c -lSDL
+	$(CC) $(CPPFLAGS) -c game.c
 
 errors.o : errors.h errors.c
 	$(CC) $(CPPFLAGS) -c errors.c

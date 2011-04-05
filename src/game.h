@@ -9,10 +9,12 @@
 #define GAME_H
 
 #include <SDL.h> /* Graphics/Audio library */
+#include "game_state.h"
 
 /* Hanlde for the game logic */
 typedef struct {
     volatile int running; /* Controls starting and stopping of a game */
+    game_state *state;    /* The underlying state of the current game */
     SDL_Surface *surface; /* The surface where this game will be drawn */
     SDL_Event *event;     /* Event handler for SDL */
 } game;

@@ -15,7 +15,7 @@ int game_state_init(game_state* state)
     return GAME_SUCCESS;
 }
 
-void game_state_Free(game_state* state)
+void game_state_free(game_state* state)
 {
     assert(state);
 

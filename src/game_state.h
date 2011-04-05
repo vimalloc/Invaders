@@ -32,5 +32,6 @@ int game_state_init(game_state* state);
 void game_state_free(game_state* state);
 
 /* TODO - Get a list of every ship that has changed and needs to be redrawn */
+/* TODO - Provide a function for moving the players ship (xmax/ymax bounds) */
 
 #endif

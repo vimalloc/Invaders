@@ -54,6 +54,12 @@ int game_init(game *g)
     if((g->event = (SDL_Event *) malloc(sizeof(SDL_Event))) == NULL)
         return ERR_MALLOC;
 
+    if((g->state = (game_state *) malloc(sizeof(game_state))) == NULL)
+        return ERR_MALLOC;
+
+    if(game_state_init(g->state) < 0)
+        return ERR_MALLOC;
+
     if(game_sdl_init(g) < 0)
         return ERR_SDL_INIT;
 
@@ -64,6 +70,8 @@ void game_free(game *g)
 {
     assert(g);
 
+    game_state_free(g->state);
+    free(g->state);
     free(g->event);
     SDL_FreeSurface(g->surface);
     SDL_Quit();
