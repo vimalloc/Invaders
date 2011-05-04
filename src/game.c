@@ -103,26 +103,35 @@ static void game_update_display(game *g, float interpolation)
     SDL_Flip(g->surface);
 }
 
-int game_init(game *g)
+int game_init(game **g)
 {
-    assert(g);
+    int error;
 
-    g->up_button = 0;
-    g->down_button = 0;
-    g->left_button = 0;
-    g->right_button = 0;
-
-    if((g->event = (SDL_Event *) malloc(sizeof(SDL_Event))) == NULL)
+    *g = malloc(sizeof(game));
+    if(!*g)
         return ERR_MALLOC;
 
-    if((g->state = (game_state *) malloc(sizeof(game_state))) == NULL)
+    (**g).event = malloc(sizeof(SDL_Event));
+    if(!(**g).event)
         return ERR_MALLOC;
 
-    if(game_state_init(&(g->state)) < 0)
-        return ERR_MALLOC;
+    error = game_state_init(&((**g).state));
+    if(error != HUGE_SUCCESS) {
+        free(*g);
+        return error;
+    }
 
-    if(game_sdl_init(g) < 0)
-        return ERR_SDL_INIT;
+    error = game_sdl_init(*g);
+    if(error != HUGE_SUCCESS) {
+        game_state_free((**g).state);
+        free(*g);
+        return error;
+    }
+
+    (**g).up_button = 0;
+    (**g).down_button = 0;
+    (**g).left_button = 0;
+    (**g).right_button = 0;
 
     return HUGE_SUCCESS;
 }
@@ -176,19 +185,21 @@ int game_start(game *g)
 int main()
 {
     int error;
-    game g;
+    game *g;
 
-    if((error = game_init(&g)) < 0) {
+    error = game_init(&g);
+    if(error != HUGE_SUCCESS) {
         printf("%s \n", err_string(error));
         return error;
     }
 
     /* main loop */
-    if((error = game_start(&g)) < 0) {
+    error = game_start(g);
+    if(error != HUGE_SUCCESS) {
         printf("%s \n", err_string(error));
         return error;
     }
 
-    game_free(&g);
+    game_free(g);
     return HUGE_SUCCESS;
 }

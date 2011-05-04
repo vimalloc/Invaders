@@ -30,7 +30,7 @@ typedef struct {
  * @param g The game to initalize
  * @return 0 on success, errcode (< 0) on failure
  */
-int game_init(game *g);
+int game_init(game **g);
 
 
 /**
