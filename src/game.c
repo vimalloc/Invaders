@@ -157,8 +157,6 @@ int game_start(game *g)
     unsigned int frame_skip;
 
     assert(g);
-    assert(g->surface);
-    assert(g->event);
 
     /* Game loop */
     g->running = 1;
@@ -195,11 +193,15 @@ int main()
 
     /* main loop */
     error = game_start(g);
+
+    /* cleanup */
     if(error != HUGE_SUCCESS) {
         printf("%s \n", err_string(error));
+        game_free(g);
         return error;
     }
-
-    game_free(g);
-    return HUGE_SUCCESS;
+    else {
+        game_free(g);
+        return HUGE_SUCCESS;
+    }
 }

@@ -37,7 +37,7 @@ int game_state_init(game_state **state)
 
     /* Load the players ship for this game. This sprite will now be owned
      * by this player ship */
-    error = ship_init(&(**state).player_ship, player_sprite, 5);
+    error = ship_init(&(**state).player_ship, player_sprite, PLAYER_SPEED);
     if(error != HUGE_SUCCESS) {
         free(*state);
         sprite_free(player_sprite);
