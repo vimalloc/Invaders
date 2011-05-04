@@ -3,77 +3,107 @@
 
 #include "game_state.h"
 #include "errors.h"
+#include "ship.h"
 
-int game_state_init(game_state* state, int xmax, int ymax)
+int game_state_init(game_state **state, int xmax, int ymax)
 {
-    assert(state);
+    int error;
+    sprite *player_sprite; /* will be owned by the game_state object */
 
-    state->player_ship = (ship *) malloc(sizeof(ship));
-    if(state->player_ship == NULL)
+    /* malloc this */
+    *state = malloc(sizeof(game_state));
+    if(!*state)
         return ERR_MALLOC;
 
-    state->xmax = xmax;
-    state->ymax = ymax;
-    state->player_changed = 0;
+    /* Load the sprite for the player ship */
+    error = sprite_load_bmp(&player_sprite, "player.bmp");
+    if(error != HUGE_SUCCESS) {
+        free(*state);
+        return error;
+    }
 
-    return GAME_SUCCESS;
+    /* Load the players ship for this game. This sprite will now be owned
+     * by this player ship */
+    error = ship_init(&(**state).player_ship, player_sprite, 5);
+    if(error != HUGE_SUCCESS) {
+        free(*state);
+        sprite_free(player_sprite);
+        return error;
+    }
+
+    /* set default values */
+    (**state).xmax = xmax;
+    (**state).ymax = ymax;
+    (**state).player_changed = 0;
+
+    return HUGE_SUCCESS;
 }
 
 void game_state_free(game_state* state)
 {
     assert(state);
 
-    free(state->player_ship);
+    ship_free(state->player_ship);
+    sprite_free(state->player_ship->sprite);
+    free(state);
 }
 
 void game_state_move_up(game_state* state)
 {
-    if(state->player_ship->ypos == 0)
+    ship *pship = state->player_ship;
+
+    if(pship->ypos == 0)
         return;
 
-    state->player_ship->ypos -= 1;
+    pship->ypos -= ship_get_speed(pship);
 
-    if(state->player_ship->ypos < 0)
-        state->player_ship->ypos = 0;
+    if(pship->ypos < 0)
+        pship->ypos = 0;
 
     state->player_changed = 1;
 }
 
 void game_state_move_down(game_state* state)
 {
-    if(state->player_ship->ypos == state->ymax)
+    ship *pship = state->player_ship;
+
+    if(pship->ypos == state->ymax)
         return;
 
-    state->player_ship->ypos += 1;
+    pship->ypos += ship_get_speed(pship);
 
-    if(state->player_ship->ypos > state->ymax)
-        state->player_ship->ypos = state->ymax;
+    if(pship->ypos > state->ymax)
+        pship->ypos = state->ymax;
 
     state->player_changed = 1;
 }
 
 void game_state_move_left(game_state* state)
 {
-    if(state->player_ship->xpos == 0)
+    ship *pship = state->player_ship;
+
+    if(pship->xpos == 0)
         return;
 
-    state->player_ship->xpos -= 1;
+    pship->xpos -= ship_get_speed(pship);
 
-    if(state->player_ship->xpos < 0)
-        state->player_ship->xpos = 0;
+    if(pship->xpos < 0)
+        pship->xpos = 0;
 
     state->player_changed = 1;
 }
 
 void game_state_move_right(game_state* state)
 {
-    if(state->player_ship->xpos == state->xmax)
+    ship *pship = state->player_ship;
+
+    if(pship->xpos == state->xmax)
         return;
 
-    state->player_ship->xpos += 1;
+    pship->xpos += ship_get_speed(pship);
 
-    if(state->player_ship->xpos > state->xmax)
-        state->player_ship->xpos = state->xmax;
+    if(pship->xpos > state->xmax)
+        pship->xpos = state->xmax;
 
     state->player_changed = 1;
 }

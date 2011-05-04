@@ -32,7 +32,7 @@ static int game_sdl_init(game *g)
                      SDL_HWSURFACE | SDL_DOUBLEBUF)) == NULL)
         return ERR_SDL_INIT;
 
-    return GAME_SUCCESS;
+    return HUGE_SUCCESS;
 }
 
 static void game_stop(game *g)
@@ -80,21 +80,32 @@ static void game_process_movement(game *g)
         game_state_move_left(g->state);
     if(g->right_button)
         game_state_move_right(g->state);
-
-    printf("%i %i \n", g->state->player_ship->xpos, g->state->player_ship->ypos);
 }
 
-static void game_draw_player(ship* player)
+static void game_draw_player(game* g)
 {
+    SDL_Rect DestR;
 
+    if(g->surface == NULL || g->state->player_ship->sprite->pic == NULL)
+        assert(0);
+
+    DestR.x = g->state->player_ship->xpos;
+    DestR.y = g->state->player_ship->ypos;
+
+    SDL_BlitSurface(g->state->player_ship->sprite->pic, NULL, g->surface, &DestR);
+
+    SDL_Flip(g->surface);
 }
 
 static void game_update_display(game *g, float interpolation)
 {
-    /* redraw the players ship, and mark it as unchanged */
+    /* redraw the background */
+    SDL_FillRect(g->surface, NULL, 0x000000);
+
+    /* draw the player */
     if(g->state->player_changed) {
         g->state->player_changed = 0;
-        game_draw_player(g->state->player_ship);
+        game_draw_player(g);
     }
 }
 
@@ -113,13 +124,13 @@ int game_init(game *g)
     if((g->state = (game_state *) malloc(sizeof(game_state))) == NULL)
         return ERR_MALLOC;
 
-    if(game_state_init(g->state, GAME_WIDTH, GAME_HEIGHT) < 0)
+    if(game_state_init(&(g->state), GAME_WIDTH, GAME_HEIGHT) < 0)
         return ERR_MALLOC;
 
     if(game_sdl_init(g) < 0)
         return ERR_SDL_INIT;
 
-    return GAME_SUCCESS;
+    return HUGE_SUCCESS;
 }
 
 void game_free(game *g)
@@ -165,7 +176,7 @@ int game_start(game *g)
                             - next_game_tick) / (float) (SKIP_TICKS));
     }
 
-    return GAME_SUCCESS;
+    return HUGE_SUCCESS;
 }
 
 int main()
@@ -185,5 +196,5 @@ int main()
     }
 
     game_free(&g);
-    return GAME_SUCCESS;
+    return HUGE_SUCCESS;
 }

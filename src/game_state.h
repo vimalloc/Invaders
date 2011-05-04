@@ -25,7 +25,7 @@ typedef struct {
  * @param ymax The maximum y position for this game
  * @return 0 on success, errcode (< 0) on failure
  */
-int game_state_init(game_state* state, int xmax, int ymax);
+int game_state_init(game_state **state, int xmax, int ymax);
 
 /**
  * Frees all the memory used by the game state
