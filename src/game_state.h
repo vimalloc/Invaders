@@ -12,9 +12,6 @@
 /* Handle for the game state object */
 typedef struct {
     ship* player_ship;  /* The player controlled ship */
-    int player_changed; /* Tracks if the players ship has changed */
-    int xmax;           /* The max x position on the playing grid */
-    int ymax;           /* The max y position on the playing grid */
 } game_state;
 
 /**
@@ -25,7 +22,7 @@ typedef struct {
  * @param ymax The maximum y position for this game
  * @return 0 on success, errcode (< 0) on failure
  */
-int game_state_init(game_state **state, int xmax, int ymax);
+int game_state_init(game_state **state);
 
 /**
  * Frees all the memory used by the game state
@@ -33,6 +30,12 @@ int game_state_init(game_state **state, int xmax, int ymax);
  * @param state The game state to free
  */
 void game_state_free(game_state* state);
+
+/**
+ * Gets the deminisions of the game_state
+ */
+int game_state_get_width();
+int game_state_get_height();
 
 /**
  * Functions for moving the players ship

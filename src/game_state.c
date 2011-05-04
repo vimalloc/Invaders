@@ -5,7 +5,20 @@
 #include "errors.h"
 #include "ship.h"
 
-int game_state_init(game_state **state, int xmax, int ymax)
+/* Game state information */
+enum {
+    /* Width of the screen for the playable game area */
+    GAME_WIDTH = 640,
+
+    /* Height of the screen for the playable game area */
+    GAME_HEIGHT = 480,
+
+    /* How many pixels the player moves per update */
+    PLAYER_SPEED = 4,
+};
+
+
+int game_state_init(game_state **state)
 {
     int error;
     sprite *player_sprite; /* will be owned by the game_state object */
@@ -31,13 +44,9 @@ int game_state_init(game_state **state, int xmax, int ymax)
         return error;
     }
 
-    /* set default values */
-    (**state).xmax = xmax;
-    (**state).ymax = ymax;
-    (**state).player_changed = 0;
-
     return HUGE_SUCCESS;
 }
+
 
 void game_state_free(game_state* state)
 {
@@ -48,62 +57,54 @@ void game_state_free(game_state* state)
     free(state);
 }
 
+
+int game_state_get_width()
+{
+    return GAME_WIDTH;
+}
+
+
+int game_state_get_height()
+{
+    return GAME_HEIGHT;
+}
+
+
 void game_state_move_up(game_state* state)
 {
     ship *pship = state->player_ship;
 
-    if(pship->ypos == 0)
-        return;
-
     pship->ypos -= ship_get_speed(pship);
-
     if(pship->ypos < 0)
         pship->ypos = 0;
-
-    state->player_changed = 1;
 }
+
 
 void game_state_move_down(game_state* state)
 {
     ship *pship = state->player_ship;
 
-    if(pship->ypos == state->ymax)
-        return;
-
     pship->ypos += ship_get_speed(pship);
-
-    if(pship->ypos > state->ymax)
-        pship->ypos = state->ymax;
-
-    state->player_changed = 1;
+    if(pship->ypos > GAME_HEIGHT)
+        pship->ypos = GAME_HEIGHT;
 }
+
 
 void game_state_move_left(game_state* state)
 {
     ship *pship = state->player_ship;
 
-    if(pship->xpos == 0)
-        return;
-
     pship->xpos -= ship_get_speed(pship);
-
     if(pship->xpos < 0)
         pship->xpos = 0;
-
-    state->player_changed = 1;
 }
+
 
 void game_state_move_right(game_state* state)
 {
     ship *pship = state->player_ship;
 
-    if(pship->xpos == state->xmax)
-        return;
-
     pship->xpos += ship_get_speed(pship);
-
-    if(pship->xpos > state->xmax)
-        pship->xpos = state->xmax;
-
-    state->player_changed = 1;
+    if(pship->xpos > GAME_WIDTH)
+        pship->xpos = GAME_WIDTH;
 }

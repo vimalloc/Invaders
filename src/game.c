@@ -4,7 +4,7 @@
 #include "game.h"
 #include "errors.h"
 
-/* Screen and game state update settings */
+/* Screen update settings */
 enum {
     /* How many times per second we want to update the game state */
     TICKS_PER_SECOND = 60,
@@ -14,12 +14,6 @@ enum {
 
     /* The maximum number of frames that can be skipped */
     MAX_FRAMESKIP = 10,
-
-    /* Width of the screen for the playable game area */
-    GAME_WIDTH = 640,
-
-    /* Height of the screen for the playable game area */
-    GAME_HEIGHT = 480,
 };
 
 
@@ -28,8 +22,10 @@ static int game_sdl_init(game *g)
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
         return ERR_SDL_INIT;
 
-    if((g->surface = SDL_SetVideoMode(GAME_WIDTH, GAME_HEIGHT, 32,
-                     SDL_HWSURFACE | SDL_DOUBLEBUF)) == NULL)
+    g->surface = SDL_SetVideoMode(game_state_get_width(),
+        game_state_get_height(), 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+
+    if(g->surface == NULL)
         return ERR_SDL_INIT;
 
     return HUGE_SUCCESS;
@@ -93,20 +89,18 @@ static void game_draw_player(game* g)
     DestR.y = g->state->player_ship->ypos;
 
     SDL_BlitSurface(g->state->player_ship->sprite->pic, NULL, g->surface, &DestR);
-
-    SDL_Flip(g->surface);
 }
 
 static void game_update_display(game *g, float interpolation)
 {
-    /* redraw the background */
+    /* Prepare the background for redrawing */
     SDL_FillRect(g->surface, NULL, 0x000000);
 
-    /* draw the player */
-    if(g->state->player_changed) {
-        g->state->player_changed = 0;
-        game_draw_player(g);
-    }
+    /* Add the player to the new surface */
+    game_draw_player(g);
+
+    /* Draw the new surface */
+    SDL_Flip(g->surface);
 }
 
 int game_init(game *g)
@@ -124,7 +118,7 @@ int game_init(game *g)
     if((g->state = (game_state *) malloc(sizeof(game_state))) == NULL)
         return ERR_MALLOC;
 
-    if(game_state_init(&(g->state), GAME_WIDTH, GAME_HEIGHT) < 0)
+    if(game_state_init(&(g->state)) < 0)
         return ERR_MALLOC;
 
     if(game_sdl_init(g) < 0)
