@@ -143,6 +143,7 @@ void game_free(game *g)
     game_state_free(g->state);
     SDL_FreeSurface(g->surface);
     SDL_Quit();
+    free(g);
 }
 
 int game_start(game *g)
