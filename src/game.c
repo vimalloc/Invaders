@@ -141,8 +141,6 @@ void game_free(game *g)
     assert(g);
 
     game_state_free(g->state);
-    free(g->state);
-    free(g->event);
     SDL_FreeSurface(g->surface);
     SDL_Quit();
 }
