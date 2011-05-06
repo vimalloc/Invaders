@@ -24,4 +24,10 @@ int sprite_load_bmp(sprite** s, char* file);
  */
 void sprite_free(sprite* s);
 
+/* Returns the width of this sprite */
+int sprite_width(sprite *s);
+
+/* Returns the height of this sprite */
+int sprite_height(sprite *s);
+
 #endif

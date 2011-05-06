@@ -6,16 +6,6 @@
 
 int sprite_load_bmp(sprite **s, char *file)
 {
-    /* Format this sprite to go with the background display */
-    /*
-    SDL_Surface *tmp = NULL;
-    if((tmp = SDL_LoadBMP(file)) == NULL)
-        return ERR_SPRITE;
-
-    s->pic = SDL_DisplayFormat(tmp);
-    SDL_FreeSurface(tmp);
-    */
-
     *s = malloc(sizeof(sprite));
     if(!s)
         return ERR_MALLOC;
@@ -32,4 +22,14 @@ void sprite_free(sprite* s)
 
     free(s->pic);
 	free(s);
+}
+
+int sprite_width(sprite *s)
+{
+    return s->pic->w;
+}
+
+int sprite_height(sprite *s)
+{
+    return s->pic->h;
 }

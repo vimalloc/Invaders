@@ -1,6 +1,7 @@
 *
 !*.h
 !*.c
+!*.bmp
 !.gitignore
 ![Mm]akefile
 !src/
