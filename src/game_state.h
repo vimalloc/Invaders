@@ -12,6 +12,10 @@
 /* Handle for the game state object */
 typedef struct {
     ship* player_ship;  /* The player controlled ship */
+    int player_move_up;     /* Queue the player ship to move up */
+    int player_move_down;   /* Queue the player ship to move down */
+    int player_move_left;   /* Queue the player ship to move left */
+    int player_move_right;  /* Queue the player ship to move right */
 } game_state;
 
 /**
@@ -46,5 +50,10 @@ void game_state_move_up(game_state* state);
 void game_state_move_down(game_state* state);
 void game_state_move_left(game_state* state);
 void game_state_move_right(game_state* state);
+
+/**
+ * Updates the game state by 1 step
+ */
+void game_state_update(game_state *state);
 
 #endif

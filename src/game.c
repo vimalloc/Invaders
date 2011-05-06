@@ -44,38 +44,26 @@ static void game_handle_input(game *g)
 
         else if(g->event->type == SDL_KEYDOWN) {
             if(g->event->key.keysym.sym == SDLK_UP)
-                g->up_button = 1;
+                g->state->player_move_up = 1;
             if(g->event->key.keysym.sym == SDLK_DOWN)
-                g->down_button = 1;
+                g->state->player_move_down = 1;
             if(g->event->key.keysym.sym == SDLK_LEFT)
-                g->left_button = 1;
+                g->state->player_move_left = 1;
             if(g->event->key.keysym.sym == SDLK_RIGHT)
-                g->right_button = 1;
+                g->state->player_move_right = 1;
         }
 
         else if(g->event->type == SDL_KEYUP) {
             if(g->event->key.keysym.sym == SDLK_UP)
-                g->up_button = 0;
+                g->state->player_move_up = 0;
             if(g->event->key.keysym.sym == SDLK_DOWN)
-                g->down_button = 0;
+                g->state->player_move_down = 0;
             if(g->event->key.keysym.sym == SDLK_LEFT)
-                g->left_button = 0;
+                g->state->player_move_left = 0;
             if(g->event->key.keysym.sym == SDLK_RIGHT)
-                g->right_button = 0;
+                g->state->player_move_right = 0;
         }
     }
-}
-
-static void game_process_movement(game *g)
-{
-    if(g->up_button)
-        game_state_move_up(g->state);
-    if(g->down_button)
-        game_state_move_down(g->state);
-    if(g->left_button)
-        game_state_move_left(g->state);
-    if(g->right_button)
-        game_state_move_right(g->state);
 }
 
 static void game_draw_player(game* g)
@@ -103,6 +91,12 @@ static void game_update_display(game *g, float interpolation)
     SDL_Flip(g->surface);
 }
 
+static void game_update(game *g)
+{
+    game_handle_input(g);
+    game_state_update(g->state);
+}
+
 int game_init(game **g)
 {
     int error;
@@ -127,11 +121,6 @@ int game_init(game **g)
         free(*g);
         return error;
     }
-
-    (**g).up_button = 0;
-    (**g).down_button = 0;
-    (**g).left_button = 0;
-    (**g).right_button = 0;
 
     return HUGE_SUCCESS;
 }
@@ -164,8 +153,7 @@ int game_start(game *g)
         frame_skip = 0;
 
         while(SDL_GetTicks() > next_game_tick && frame_skip <= MAX_FRAMESKIP) {
-            game_handle_input(g);
-            game_process_movement(g);
+            game_update(g);
             next_game_tick += SKIP_TICKS;
             frame_skip++;
         }

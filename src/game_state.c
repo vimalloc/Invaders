@@ -78,41 +78,57 @@ int game_state_get_height()
 }
 
 
-void game_state_move_up(game_state* state)
+static void move_ship_up(ship *ship)
 {
-    ship *pship = state->player_ship;
+    ship->ypos -= ship_get_speed(ship);
+    if(ship->ypos < 0)
+        ship->ypos = 0;
+}
 
-    pship->ypos -= ship_get_speed(pship);
-    if(pship->ypos < 0)
-        pship->ypos = 0;
+static void move_ship_down(ship *ship)
+{
+    ship->ypos += ship_get_speed(ship);
+    if(ship->ypos + ship_get_height(ship) > GAME_HEIGHT)
+        ship->ypos = GAME_HEIGHT - ship_get_height(ship);
 }
 
 
-void game_state_move_down(game_state* state)
+static void move_ship_left(ship *ship)
 {
-    ship *pship = state->player_ship;
-
-    pship->ypos += ship_get_speed(pship);
-    if(pship->ypos + ship_get_height(pship) > GAME_HEIGHT)
-        pship->ypos = GAME_HEIGHT - ship_get_height(pship);
+    ship->xpos -= ship_get_speed(ship);
+    if(ship->xpos < 0)
+        ship->xpos = 0;
 }
 
 
-void game_state_move_left(game_state* state)
+static void move_ship_right(ship *ship)
 {
-    ship *pship = state->player_ship;
-
-    pship->xpos -= ship_get_speed(pship);
-    if(pship->xpos < 0)
-        pship->xpos = 0;
+    ship->xpos += ship_get_speed(ship);
+    if(ship->xpos + ship_get_width(ship) > GAME_WIDTH)
+        ship->xpos = GAME_WIDTH - ship_get_width(ship);
 }
 
-
-void game_state_move_right(game_state* state)
+static void process_player_movement(game_state *state)
 {
-    ship *pship = state->player_ship;
+    if(state->player_move_up)
+        move_ship_up(state->player_ship);
 
-    pship->xpos += ship_get_speed(pship);
-    if(pship->xpos + ship_get_width(pship) > GAME_WIDTH)
-        pship->xpos = GAME_WIDTH - ship_get_width(pship);
+    if(state->player_move_down)
+        move_ship_down(state->player_ship);
+
+    if(state->player_move_left)
+        move_ship_left(state->player_ship);
+
+    if(state->player_move_right)
+        move_ship_right(state->player_ship);
+}
+
+void game_state_update(game_state *state)
+{
+    /* Process player movement */
+    process_player_movement(state);
+
+    /* Process gun fire movement */
+
+    /* Process alien movement */
 }
