@@ -31,3 +31,13 @@ int ship_get_speed(ship *s)
     assert(s);
     return s->speed;
 }
+
+int ship_get_width(ship *s)
+{
+    return sprite_width(s->sprite);
+}
+
+int ship_get_height(ship *s)
+{
+    return sprite_height(s->sprite);
+}

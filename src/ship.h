@@ -48,4 +48,9 @@ void ship_free(ship *s);
  */
 int ship_get_speed(ship *s);
 
+int ship_get_height(ship *s);
+int ship_get_width(ship *s);
+
+
+
 #endif

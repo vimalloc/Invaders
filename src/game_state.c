@@ -21,6 +21,8 @@ enum {
 int game_state_init(game_state **state)
 {
     int error;
+    int ship_height;
+    int ship_width;
     sprite *player_sprite; /* will be owned by the game_state object */
 
     /* malloc this */
@@ -43,6 +45,12 @@ int game_state_init(game_state **state)
         sprite_free(player_sprite);
         return error;
     }
+
+    /* Center the ships position on the game board */
+    ship_height = ship_get_height((**state).player_ship);
+    ship_width = ship_get_width((**state).player_ship);
+    (**state).player_ship->ypos = GAME_HEIGHT - ship_height;
+    (**state).player_ship->xpos = (GAME_WIDTH + ship_height) / 2;
 
     return HUGE_SUCCESS;
 }
