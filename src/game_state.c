@@ -93,8 +93,8 @@ void game_state_move_down(game_state* state)
     ship *pship = state->player_ship;
 
     pship->ypos += ship_get_speed(pship);
-    if(pship->ypos > GAME_HEIGHT)
-        pship->ypos = GAME_HEIGHT;
+    if(pship->ypos + ship_get_height(pship) > GAME_HEIGHT)
+        pship->ypos = GAME_HEIGHT - ship_get_height(pship);
 }
 
 
@@ -113,6 +113,6 @@ void game_state_move_right(game_state* state)
     ship *pship = state->player_ship;
 
     pship->xpos += ship_get_speed(pship);
-    if(pship->xpos > GAME_WIDTH)
-        pship->xpos = GAME_WIDTH;
+    if(pship->xpos + ship_get_width(pship) > GAME_WIDTH)
+        pship->xpos = GAME_WIDTH - ship_get_width(pship);
 }
