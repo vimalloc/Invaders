@@ -16,6 +16,7 @@ typedef struct {
     int player_move_down;   /* Queue the player ship to move down */
     int player_move_left;   /* Queue the player ship to move left */
     int player_move_right;  /* Queue the player ship to move right */
+    int player_fire;        /* Queue the player ship for firing */
 } game_state;
 
 /**

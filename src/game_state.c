@@ -50,7 +50,14 @@ int game_state_init(game_state **state)
     ship_height = ship_get_height((**state).player_ship);
     ship_width = ship_get_width((**state).player_ship);
     (**state).player_ship->ypos = GAME_HEIGHT - ship_height;
-    (**state).player_ship->xpos = (GAME_WIDTH + ship_height) / 2;
+    (**state).player_ship->xpos = (GAME_WIDTH + ship_width) / 2;
+
+    /* Set the queues to zero by default */
+    (**state).player_move_up = 0;
+    (**state).player_move_down = 0;
+    (**state).player_move_left = 0;
+    (**state).player_move_right = 0;
+    (**state).player_fire = 0;
 
     return HUGE_SUCCESS;
 }
@@ -121,6 +128,9 @@ static void process_player_movement(game_state *state)
 
     if(state->player_move_right)
         move_ship_right(state->player_ship);
+
+    if(state->player_fire)
+        printf("%s\n", "fire");
 }
 
 void game_state_update(game_state *state)

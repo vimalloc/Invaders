@@ -51,6 +51,8 @@ static void game_handle_input(game *g)
                 g->state->player_move_left = 1;
             if(g->event->key.keysym.sym == SDLK_RIGHT)
                 g->state->player_move_right = 1;
+            if(g->event->key.keysym.sym == SDLK_SPACE)
+                g->state->player_fire = 1;
         }
 
         else if(g->event->type == SDL_KEYUP) {
@@ -62,6 +64,8 @@ static void game_handle_input(game *g)
                 g->state->player_move_left = 0;
             if(g->event->key.keysym.sym == SDLK_RIGHT)
                 g->state->player_move_right = 0;
+            if(g->event->key.keysym.sym == SDLK_SPACE)
+                g->state->player_fire = 0;
         }
     }
 }
