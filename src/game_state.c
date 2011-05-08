@@ -18,7 +18,7 @@ enum {
     PLAYER_SPEED = 4,
 
     /* How fast the players gun recharges (counted in game updates) */
-    PLAYER_GUN_RECHARGE = 1000000,
+    PLAYER_GUN_RECHARGE = 20,
 };
 
 
