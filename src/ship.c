@@ -4,18 +4,28 @@
 #include "ship.h"
 #include "errors.h"
 
-int ship_init(ship **s, sprite *sprite, int speed)
+int ship_init(ship **s, sprite *sprite, int ship_speed, int gun_recharge)
 {
+    int error;
+
     assert(sprite);
 
     *s = malloc(sizeof(ship));
     if(!s)
         return ERR_MALLOC;
 
-    (*s)->sprite = sprite;
-    (*s)->speed = speed;
-    (*s)->xpos = 0;
-    (*s)->ypos = 0;
+    /* Create the gun this ship will use */
+    error = gun_init(&((**s).gun), gun_recharge);
+    if(error != HUGE_SUCCESS) {
+        free(*s);
+        return error;
+    }
+
+    /* Set the values for this ship */
+    (**s).sprite = sprite;
+    (**s).speed = ship_speed;
+    (**s).xpos = 0;
+    (**s).ypos = 0;
 
     return HUGE_SUCCESS;
 }
@@ -23,6 +33,7 @@ int ship_init(ship **s, sprite *sprite, int speed)
 void ship_free(ship *s)
 {
     assert(s);
+    gun_free(s->gun);
     free(s);
 }
 

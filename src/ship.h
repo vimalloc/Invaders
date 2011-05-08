@@ -8,6 +8,7 @@
 #define SHIP_H
 
 #include "sprite.h"
+#include "gun.h"
 
 /* Handle for a ship */
 typedef struct {
@@ -15,6 +16,7 @@ typedef struct {
     int ypos;
     int speed;
     sprite *sprite;
+    gun *gun;
 } ship;
 
 /**
@@ -24,9 +26,11 @@ typedef struct {
  * @param sprite An initialized sprite structure to be used for this ship. Note
  * that this sprite is designed to be used with multiple ships, and thus is not
  * owned by the ship, and will not get freeded when ship_free is called.
+ * @param ship_speed How fast this ship can move
+ * @param gun_recharge How fast the gun on this ship will recharge
  * @return 0 on success, error (< 0) if failure
  */
-int ship_init(ship **s, sprite *sprite, int speed);
+int ship_init(ship **s, sprite *sprite, int ship_speed, int gun_recharge);
 
 /**
  * Frees all the memory used by a ship

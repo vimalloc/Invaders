@@ -4,6 +4,7 @@
 #include "game_state.h"
 #include "errors.h"
 #include "ship.h"
+#include "gun.h"
 
 /* Game state information */
 enum {
@@ -15,6 +16,9 @@ enum {
 
     /* How many pixels the player moves per update */
     PLAYER_SPEED = 4,
+
+    /* How fast the players gun recharges (counted in game updates) */
+    PLAYER_GUN_RECHARGE = 1000000,
 };
 
 
@@ -39,7 +43,8 @@ int game_state_init(game_state **state)
 
     /* Load the players ship for this game. This sprite will now be owned
      * by this player ship */
-    error = ship_init(&(**state).player_ship, player_sprite, PLAYER_SPEED);
+    error = ship_init(&(**state).player_ship, player_sprite,
+            PLAYER_SPEED, PLAYER_GUN_RECHARGE);
     if(error != HUGE_SUCCESS) {
         free(*state);
         sprite_free(player_sprite);
@@ -115,7 +120,7 @@ static void move_ship_right(ship *ship)
         ship->xpos = GAME_WIDTH - ship_get_width(ship);
 }
 
-static void process_player_movement(game_state *state)
+static void process_player_actions(game_state *state)
 {
     if(state->player_move_up)
         move_ship_up(state->player_ship);
@@ -130,13 +135,21 @@ static void process_player_movement(game_state *state)
         move_ship_right(state->player_ship);
 
     if(state->player_fire)
-        printf("%s\n", "fire");
+        gun_fire(state->player_ship->gun);
+}
+
+static void update_gun_charge(game_state *state)
+{
+    gun_recharge(state->player_ship->gun);
 }
 
 void game_state_update(game_state *state)
 {
-    /* Process player movement */
-    process_player_movement(state);
+    /* Update the guns recharge */
+    update_gun_charge(state);
+
+    /* Process player actions */
+    process_player_actions(state);
 
     /* Process gun fire movement */
 

@@ -3,13 +3,12 @@
 
 /* Handle for all gun related stuff */
 typedef struct {
-    int speed;          /* How fast this gun fires */
     int recharge_rate;  /* How ofter this gun can fire */
     int current_charge; /* Time until this gun can fire again */
 } gun;
 
 /* Init */
-int gun_init(gun **g, int speed, int recharge_rate);
+int gun_init(gun **g, int recharge_rate);
 
 /* Free */
 void gun_free(gun *g);
