@@ -1,0 +1,9 @@
+Implement a basic bullet to get things working.
+
+Change some things to getters and setters so that we can change something
+stuff (like player stuff bellow) without having to change everything.
+
+Move player related stuff into a seperate player object
+
+Implement a unit test framework
+    -ship movement
