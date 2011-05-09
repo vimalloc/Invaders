@@ -35,7 +35,7 @@ int game_state_init(game_state **state)
         return ERR_MALLOC;
 
     /* Load the sprite for the player ship */
-    error = sprite_load_bmp(&player_sprite, "player.bmp");
+    error = sprite_load_bmp(&player_sprite, "../images/player.bmp");
     if(error != HUGE_SUCCESS) {
         free(*state);
         return error;
