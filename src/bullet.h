@@ -2,14 +2,17 @@
 #define BULLET_H
 
 typedef struct {
+    int xpos;       /* This bullets xpos */
+    int ypos;       /* This bullets ypos */
+    sprite *sprite; /* A sprite for this bullet */
+
     /* A function pointer to a movement algorithm for each bullet */
-    /* This bullets xpos */
-    /* This bullets ypos */
-    /* A sprite for this bullet */
+
     /* Bullet number (in case more then one bullet was shot from the
      * same gun at a time, in which case we could use the bullet
      * numbers in conjunction with the update position algorithm so
      * that different bullets will go different ways */
+    int bullet_number;
 } bullet;
 
 /* Update this bullets x and y position */
