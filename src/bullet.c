@@ -1,4 +1,12 @@
+#include <assert.h>
+#include <stdio.h>
+
 #include "bullet.h"
+#include "errors.h"
+
+/* Should create the update function pointers here staticaly so that we we can
+ * use the same function pointer for multiple bullets instead of creating a new
+ * one for each bullet */
 
 void bullet_update_position(bullet *b)
 {
