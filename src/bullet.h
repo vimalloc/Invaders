@@ -7,6 +7,7 @@ typedef struct {
     sprite *sprite; /* A sprite for this bullet */
 
     /* A function pointer to a movement algorithm for each bullet */
+    /* void movement_function_pointer(bullet *b); */
 
     /* Bullet number (in case more then one bullet was shot from the
      * same gun at a time, in which case we could use the bullet
@@ -15,31 +16,26 @@ typedef struct {
     int bullet_number;
 } bullet;
 
-/* Update this bullets x and y position */
-/* Call the function pointer with the old x and y position, and get the
- * newly updated x and y positions */
-
-
-/* FUNCTION POINTER SIGNITURE IDEA
-
-X and Y position, function pointer, and bullet number stored inside the bullet
-void bullet_update_position(bullet *b);
-*/
-
-
-/* Function to create different types of bullets, these will call hte bull_create functions bellow
-
-void bullet_create_basic(int level);
-void bullet_create_spread(int level);
-void bullet_create_fast(int level);
-void bullet_create_etc(int level);
-*/
-
-
-/* Need a way to create the initial bullet, based on the starting x an y position. This
-   should be called by the bullet_create_ functions above
-
-void bullet_creates(bullet **bullet[], number_of_bullets, start_x, start_y, sprite, update_function);
+/** 
+ * Update this bullets x and y position by 1 tick
  */
+void bullet_update_position(bullet *b);
+
+/** 
+ * Create basic bullets
+ * 
+ * @param results A array of bullets containing the results of this function
+ * @param number_of_bullets The number of bullets to create
+ * @param start_x The x position where these bullets are being 'fired' from
+ * @param start_y The y position where these bullets are being 'fired' from
+ * @param sprite The sprite that these bullets will use for drawning. Not that
+ * the sprite can be used for multiple bullets to save memory, so each bullet
+ * does not own the sprite passed to it, and thus that sprite must be freed
+ * elseware
+ *
+ * @return 0 on success, error otherwise
+ */
+int bullet_create_basic(bullet **results[], int number_of_bullets, int start_x,
+                        int start_y, sprite *sprite);
 
 #endif
