@@ -18,14 +18,27 @@ void bullet_update_position(bullet *b)
 static int create_bullet(bullet **results[], int number_of_bullets, int start_x,
                          int start_y, sprite *sprite, funcion_pointer)
 {
+    int i;
 
+    assert(sprite);
+
+    /* Create space for the bullets */
+    *results = malloc(sizeof(bullet) * number_of_bullets);
+
+    for(i=0; i<number_of_bullets; i++) {
+        (*results)[i]->xpos = start_x;
+        (*results)[i]->ypos = start_y;
+        (*results)[i]->sprite = sprite;
+        (*results)[i]->bullet_number = i;
+        /* set the function pointer */
+
+        /* Call the function pointer first to move the bullet past the ship */
+    }
 }
 
 int bullet_create_basic(bullet **results[], int number_of_bullets, int start_x,
                         int start_y, sprite *sprite)
 {
-    /* Create the function pointer */
-
     return create_bullet(results, number_of_bullets, start_x, start_y, sprite,
                          function_pointer);
 }
