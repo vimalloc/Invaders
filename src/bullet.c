@@ -15,6 +15,12 @@ void bullet_update_position(bullet *b)
     /* Call the function pointer stored in b */
 }
 
+void bullet_free(bullet *bullets[])
+{
+    assert(bullets);
+    free(bullets);
+}
+
 static int create_bullet(bullet **results[], int number_of_bullets, int start_x,
                          int start_y, sprite *sprite, funcion_pointer)
 {

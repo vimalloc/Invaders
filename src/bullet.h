@@ -21,6 +21,11 @@ typedef struct {
  */
 void bullet_update_position(bullet *b);
 
+/**
+ * Frees the memory used by an array of bullets
+ */
+void bullet_free(bullet *bullets[]);
+
 /** 
  * Create basic bullets
  * 
