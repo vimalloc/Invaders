@@ -8,6 +8,7 @@ typedef struct {
 
     /* A function pointer to a movement algorithm for each bullet */
     /* void movement_function_pointer(bullet *b); */
+    int (*move_bullet)(bullet *b);
 
     /* Bullet number (in case more then one bullet was shot from the
      * same gun at a time, in which case we could use the bullet
