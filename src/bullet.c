@@ -32,12 +32,15 @@ static int create_bullet(bullet **results[], int number_of_bullets, int start_x,
     *results = malloc(sizeof(bullet) * number_of_bullets);
 
     for(i=0; i<number_of_bullets; i++) {
+        /* TODO - initially space the bullets out here depending on how many
+         * bullets there are */
+
         (*results)[i]->xpos = start_x;
         (*results)[i]->ypos = start_y;
         (*results)[i]->sprite = sprite;
         (*results)[i]->bullet_number = i;
-        /* set the function pointer */
 
+        /* set the function pointer */
         /* Call the function pointer first to move the bullet past the ship */
     }
 }
