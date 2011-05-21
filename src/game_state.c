@@ -5,6 +5,7 @@
 #include "errors.h"
 #include "ship.h"
 #include "gun.h"
+#include "bullet.h"
 
 /* Game state information */
 enum {
@@ -133,14 +134,17 @@ static void process_player_actions(game_state *state)
 
     if(state->player_move_right)
         move_ship_right(state->player_ship);
-
-    if(state->player_fire)
-        gun_fire(state->player_ship->gun);
 }
 
 static void update_gun_charge(game_state *state)
 {
     gun_recharge(state->player_ship->gun);
+}
+
+static void process_gun_fire(game_state *state)
+{
+    if(state->player_fire)
+        gun_fire(state->player_ship->gun);
 }
 
 void game_state_update(game_state *state)
@@ -152,6 +156,7 @@ void game_state_update(game_state *state)
     process_player_actions(state);
 
     /* Process gun fire movement */
+    process_gun_fire(state);
 
     /* Process alien movement */
 }
