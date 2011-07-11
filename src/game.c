@@ -184,15 +184,11 @@ int main()
 
     /* main loop */
     error = game_start(g);
-
-    /* cleanup */
     if(error != HUGE_SUCCESS) {
         printf("%s \n", err_string(error));
-        game_free(g);
-        return error;
     }
-    else {
-        game_free(g);
-        return HUGE_SUCCESS;
-    }
+
+    /* cleanup */
+    game_free(g);
+    return error;
 }

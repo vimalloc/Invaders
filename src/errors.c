@@ -1,9 +1,5 @@
 #include "errors.h"
 
-/* TODO - find a way to get this at runtime instead of having to remember to
- * update this */
-static const unsigned int NUM_OF_ERROR = 4;
-
 static struct {
     int errcode;
     char* errstring;
@@ -18,10 +14,10 @@ const char* err_string(int errcode)
 {
     unsigned int i;
 
-    for(i=0; i<NUM_OF_ERROR; i++) {
+    for(i=0; i<(sizeof(errcodes)/sizeof(errcodes[0])); i++) {
         if(errcodes[i].errcode == errcode)
             return errcodes[i].errstring;
     }
 
-    return "Unknown error";
+    return "An unknown error occurred";
 }

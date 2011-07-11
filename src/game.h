@@ -24,7 +24,7 @@ typedef struct {
  * Initalize the game
  *
  * @param g The game to initalize
- * @return 0 on success, errcode (< 0) on failure
+ * @return 0 on success, errcode on failure
  */
 int game_init(game **g);
 
@@ -42,7 +42,7 @@ void game_free(game *g);
  * is over
  *
  * @param g The game to start
- * @return 0 on success, errcode (< 0) on failure
+ * @return 0 on success, errcode on failure
  */
 int game_start(game *g);
 
