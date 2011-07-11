@@ -22,13 +22,13 @@ void gun_free(gun *g)
     free(g);
 }
 
-void gun_fire(bullet *results[], ship *s)
+void gun_fire(gun *g)
 {
     assert(g);
 
     if(g->current_charge == 0) {
         g->current_charge = 1;
-        bullet_create_basic(&results, 1, s->xpos, s->ypos, /*sprite */);
+        printf("%s\n", "PEW");
     }
 }
 
