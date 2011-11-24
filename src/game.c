@@ -13,6 +13,8 @@
 /* The maximum number of frames that can be skipped */
 #define  MAX_FRAMESKIP 10
 
+/* Global, so that the signal handlers can interact with it */
+game_t *g;
 
 static void game_sdl_init(game_t *g) {
     g->event = malloc(sizeof(SDL_Event));
@@ -143,9 +145,29 @@ void game_run(game_t *g) {
     }
 }
 
-int main() {
-    game_t *g;
+void sigint_handler(int sig) {
+    printf("Caught SIGINT\n");
+    game_stop(g);
+}
 
+handler_t* sigaction_wrapper(int signum, handler_t *handler) {
+    struct sigaction action, old_action;
+
+    action.sa_handler = handler;
+    sigemptyset(&action.sa_mask); /* block sigs of type being handled */
+    action.sa_flags = SA_RESTART; /* restart syscalls if possible */
+
+    if(sigaction(signum, &action, &old_action) < 0)
+        system_error("Signal error");
+    return (old_action.sa_handler);
+}
+
+
+int main() {
+    /* Signal handlers */
+    sigaction_wrapper(SIGINT, sigint_handler);
+
+    /* Start the game */
     game_init(&g);
     game_run(g);
     game_free(g);

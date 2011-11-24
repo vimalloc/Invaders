@@ -9,6 +9,7 @@
 #define GAME_H
 
 #include <SDL.h> /* Graphics/Audio library */
+#include <signal.h>
 #include "game_state.h"
 
 /* Hanlde for the game logic */
@@ -18,6 +19,9 @@ typedef struct {
     SDL_Surface *surface; /* The surface where this game will be drawn */
     SDL_Event *event;     /* Event handler for SDL */
 } game_t;
+
+/* Used for sigaction wrapper */
+typedef void handler_t(int);
 
 
 /**
@@ -47,4 +51,17 @@ void game_free(game_t *g);
  */
 void game_run(game_t *g);
 
+/**
+ * Signal handlers
+ */
+void sigint_handler(int sig);
+
+/**
+ * wrapper for sigaction - This was written by the university of utah
+ * for the class CS4400 in the shell lab.
+ */
+handler_t* sigaction_wrapper(int signum, handler_t *handler);
+
+
 #endif
+
