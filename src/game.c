@@ -14,7 +14,7 @@
 #define  MAX_FRAMESKIP 10
 
 /* Global, so that the signal handlers can interact with it */
-game_t *g;
+static game_t *g;
 
 static void game_sdl_init(game_t *g) {
     g->event = malloc(sizeof(SDL_Event));
