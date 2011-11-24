@@ -1,5 +1,5 @@
 CC = gcc
-CPPFLAGS += -g -Wall `sdl-config --cflags` -o $@
+CPPFLAGS += -g -Wall `sdl-config --cflags --libs` -o $@
 
 ALL : Invaders
 

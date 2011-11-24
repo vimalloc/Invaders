@@ -163,7 +163,7 @@ handler_t* sigaction_wrapper(int signum, handler_t *handler) {
 }
 
 
-int main() {
+int main(int argc, char *argv[]) {
     /* Signal handlers */
     sigaction_wrapper(SIGINT, sigint_handler);
 
