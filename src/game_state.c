@@ -15,9 +15,6 @@
 /* How many pixels the player moves per update */
 #define PLAYER_SPEED 4
 
-/* How fast the players gun recharges (counted in game updates) */
-#define PLAYER_GUN_RECHARGE 20
-
 void game_state_init(game_state_t **state) {
     int ship_height;
     int ship_width;
@@ -31,8 +28,7 @@ void game_state_init(game_state_t **state) {
     sprite_load_bmp(&player_sprite, "../images/player.bmp");
 
     /* Load the players ship for this game. This sprite is owned by this struct */
-    ship_init(&(**state).player_ship, player_sprite, PLAYER_SPEED,
-            PLAYER_GUN_RECHARGE);
+    ship_init(&(**state).player_ship, player_sprite, PLAYER_SPEED);
 
     /* Center the ships position on the game board */
     ship_height = ship_get_height((**state).player_ship);

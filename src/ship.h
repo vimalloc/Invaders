@@ -30,7 +30,7 @@ typedef struct {
  * @param gun_recharge How fast the gun on this ship will recharge
  * @return 0 on success, error (< 0) if failure
  */
-void ship_init(ship_t **s, sprite_t *sprite, int ship_speed, int gun_recharge);
+void ship_init(ship_t **s, sprite_t *sprite, int ship_speed);
 
 /**
  * Frees all the memory used by a ship

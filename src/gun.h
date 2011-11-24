@@ -7,8 +7,8 @@ typedef struct {
     int current_charge; /* Time until this gun can fire again */
 } gun_t;
 
-/* Init */
-void gun_init(gun_t **g, int recharge_rate);
+/* Returns a basic lv1 gun */
+gun_t* gun_basic();
 
 /* Free */
 void gun_free(gun_t *g);

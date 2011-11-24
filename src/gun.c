@@ -5,14 +5,20 @@
 #include "errors.h"
 #include "gun.h"
 
-
-void gun_init(gun_t **g, int charge_rate) {
+static void gun_init(gun_t **g, int charge_rate) {
     *g = malloc(sizeof(gun_t));
     if(!*g)
         system_error("malloc error in gun_init");
 
     (**g).recharge_rate = charge_rate;
     (**g).current_charge = 0;
+}
+
+gun_t* gun_basic() {
+    gun_t *basic_gun;
+
+    gun_init(&basic_gun, 20);
+    return basic_gun;
 }
 
 void gun_free(gun_t *g) {
