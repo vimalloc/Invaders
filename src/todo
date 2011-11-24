@@ -7,6 +7,7 @@ NEW
 ----
 -Move player_gun_recharge in game_state to the specific gun
 -Remove game_state_get_width()(height) calls and just define them (or maybe extern them)
+-Move all of the sprites out of the game_state_t and into game_t
 
 
 OLD
