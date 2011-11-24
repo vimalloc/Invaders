@@ -52,8 +52,8 @@ void game_state_init(game_state_t **state) {
 void game_state_free(game_state_t* state) {
     assert(state);
 
-    ship_free(state->player_ship);
     sprite_free(state->player_ship->sprite);
+    ship_free(state->player_ship);
     free(state);
 }
 
