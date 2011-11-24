@@ -146,7 +146,6 @@ void game_run(game_t *g) {
 }
 
 void sigint_handler(int sig) {
-    printf("Caught SIGINT\n");
     game_stop(g);
 }
 
