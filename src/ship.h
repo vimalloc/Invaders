@@ -17,7 +17,7 @@ typedef struct {
     int speed;
     sprite *sprite;
     gun *gun;
-} ship;
+} ship_t;
 
 /**
  * Initializes a ship object
@@ -30,7 +30,7 @@ typedef struct {
  * @param gun_recharge How fast the gun on this ship will recharge
  * @return 0 on success, error (< 0) if failure
  */
-int ship_init(ship **s, sprite *sprite, int ship_speed, int gun_recharge);
+void ship_init(ship_t **s, sprite *sprite, int ship_speed, int gun_recharge);
 
 /**
  * Frees all the memory used by a ship
@@ -42,7 +42,7 @@ int ship_init(ship **s, sprite *sprite, int ship_speed, int gun_recharge);
  *
  * @param s The ship to free
  */
-void ship_free(ship *s);
+void ship_free(ship_t *s);
 
 /**
  * @brief Returns the movement speed of a ship
@@ -50,11 +50,10 @@ void ship_free(ship *s);
  * @param s The ship to get the speed of
  * @return The speed of the passed in ship
  */
-int ship_get_speed(ship *s);
+int ship_get_speed(ship_t *s);
 
-int ship_get_height(ship *s);
-int ship_get_width(ship *s);
-
-
+int ship_get_height(ship_t *s);
+int ship_get_width(ship_t *s);
 
 #endif
+
