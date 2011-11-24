@@ -7,7 +7,7 @@
 
 
 void gun_init(gun_t **g, int charge_rate) {
-    *g = malloc(sizeof(gun));
+    *g = malloc(sizeof(gun_t));
     if(!*g)
         system_error("malloc error in gun_init");
 

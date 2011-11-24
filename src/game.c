@@ -5,13 +5,13 @@
 #include "errors.h"
 
 /* How many times per second we want to update the game state */
-#define TICKS_PER_SECOND = 60
+#define TICKS_PER_SECOND 60
 
 /* Milliseconds between when each game state update should occur */
-#define SKIP_TICKS = 1000 / TICKS_PER_SECOND
+#define SKIP_TICKS 1000 / TICKS_PER_SECOND
 
 /* The maximum number of frames that can be skipped */
-#define  MAX_FRAMESKIP = 10
+#define  MAX_FRAMESKIP 10
 
 
 static void game_sdl_init(game_t *g) {
@@ -25,7 +25,7 @@ static void game_sdl_init(game_t *g) {
     g->surface = SDL_SetVideoMode(game_state_get_width(),
         game_state_get_height(), 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
 
-    if(!g->surface == NULL)
+    if(!g->surface)
         app_error("SDL surface didn't init properly");
 }
 
@@ -95,7 +95,7 @@ static void game_update(game_t *g) {
 }
 
 void game_init(game_t **g) {
-    *g = malloc(sizeof(game));
+    *g = malloc(sizeof(game_t));
     if(!*g)
         system_error("malloc error on game init");
 

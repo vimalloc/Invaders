@@ -11,7 +11,7 @@
 
 /* Handle for the game state object */
 typedef struct {
-    ship* player_ship;      /* The player controlled ship */
+    ship_t *player_ship;      /* The player controlled ship */
     int player_move_up;     /* Indicates the player ship wants to move up */
     int player_move_down;   /* Indicates the player ship wants to move down */
     int player_move_left;   /* Indicates the player ship wants to move left */

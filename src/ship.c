@@ -7,7 +7,7 @@
 void ship_init(ship_t **s, sprite_t *sprite, int ship_speed, int gun_recharge) {
     assert(sprite);
 
-    *s = malloc(sizeof(ship));
+    *s = malloc(sizeof(ship_t));
     if(!s)
         system_error("malloc error in ship_init");
 
@@ -41,3 +41,4 @@ int ship_get_height(ship_t *s) {
     assert(s);
     return sprite_height(s->sprite);
 }
+

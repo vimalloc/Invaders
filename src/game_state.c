@@ -7,23 +7,23 @@
 #include "gun.h"
 
 /* Width of the screen for the playable game area */
-#define GAME_WIDTH = 640
+#define GAME_WIDTH 640
 
 /* Height of the screen for the playable game area */
-#define GAME_HEIGHT = 480
+#define GAME_HEIGHT 480
 
 /* How many pixels the player moves per update */
-#define PLAYER_SPEED = 4
+#define PLAYER_SPEED 4
 
 /* How fast the players gun recharges (counted in game updates) */
-#define PLAYER_GUN_RECHARGE = 20
+#define PLAYER_GUN_RECHARGE 20
 
 void game_state_init(game_state_t **state) {
     int ship_height;
     int ship_width;
     sprite_t *player_sprite; /* owned by this game_state struct */
 
-    *state = malloc(sizeof(game_state));
+    *state = malloc(sizeof(game_state_t));
     if(!*state)
         system_error("malloc error on game_state_init");
 
@@ -49,7 +49,7 @@ void game_state_init(game_state_t **state) {
 }
 
 
-void game_state_free(game_state_t* state) }
+void game_state_free(game_state_t* state) {
     assert(state);
 
     ship_free(state->player_ship);

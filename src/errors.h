@@ -7,6 +7,11 @@
 #ifndef ERRORS_H
 #define ERRORS_H
 
+#include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h> /* used for strerror */
+
 enum {
     HUGE_SUCCESS = 0,   /* I'm making a note here */
     ERR_MALLOC   = -1,  /* Malloc error */
