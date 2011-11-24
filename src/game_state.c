@@ -21,7 +21,7 @@
 void game_state_init(game_state_t **state) {
     int ship_height;
     int ship_width;
-    sprite *player_sprite; /* owned by this game_state struct */
+    sprite_t *player_sprite; /* owned by this game_state struct */
 
     *state = malloc(sizeof(game_state));
     if(!*state)

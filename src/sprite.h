@@ -6,7 +6,7 @@
 /* Handle for a sprite */
 typedef struct {
     SDL_Surface *pic;
-} sprite;
+} sprite_t;
 
 /**
  * Load a bmp file into a sprite
@@ -15,19 +15,19 @@ typedef struct {
  * @param file The file path of the bmp image to load
  * @return 0 on success, error (< 0) on failure
  */
-int sprite_load_bmp(sprite** s, char* file);
+void sprite_load_bmp(sprite_t **s, char *file);
 
 /**
  * Frees all the memory used by this sprite.
  *
  * @param s The sprite to free
  */
-void sprite_free(sprite* s);
+void sprite_free(sprite_t *s);
 
 /* Returns the width of this sprite */
-int sprite_width(sprite *s);
+int sprite_width(sprite_t *s);
 
 /* Returns the height of this sprite */
-int sprite_height(sprite *s);
+int sprite_height(sprite_t *s);
 
 #endif

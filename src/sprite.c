@@ -4,32 +4,27 @@
 #include <assert.h>
 #include <stdlib.h>
 
-int sprite_load_bmp(sprite **s, char *file)
-{
+void sprite_load_bmp(sprite_t **s, char *file) {
     *s = malloc(sizeof(sprite));
     if(!s)
-        return ERR_MALLOC;
+        system_error("malloc error in sprite_load_bmp");
 
-    if(((*s)->pic = SDL_LoadBMP(file)) == NULL)
-        return ERR_SPRITE;
-
-    return HUGE_SUCCESS;
+    (**s).pic== SDL_LoadBMP(file);
+    if(!(**s).pic)
+        app_error(strcat(file, ": Couldn't be loaded into a sprite"));
 }
 
-void sprite_free(sprite* s)
-{
+void sprite_free(sprite* s) {
     assert(s);
 
     free(s->pic);
 	free(s);
 }
 
-int sprite_width(sprite *s)
-{
+int sprite_width(sprite *s) {
     return s->pic->w;
 }
 
-int sprite_height(sprite *s)
-{
+int sprite_height(sprite *s) {
     return s->pic->h;
 }
