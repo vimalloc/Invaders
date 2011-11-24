@@ -17,16 +17,18 @@ typedef struct {
     game_state *state;    /* The underlying state of the current game */
     SDL_Surface *surface; /* The surface where this game will be drawn */
     SDL_Event *event;     /* Event handler for SDL */
-} game;
+} game_t;
 
 
 /**
  * Initalize the game
  *
+ * If anything fails to initialize properly, an error message will be
+ * printed and the program will terminate
+ *
  * @param g The game to initalize
- * @return 0 on success, errcode on failure
  */
-int game_init(game **g);
+void game_init(game_t **g);
 
 
 /**
@@ -34,16 +36,15 @@ int game_init(game **g);
  *
  * @param g The game to free
  */
-void game_free(game *g);
+void game_free(game_t *g);
 
 
 /**
  * Starts running a new game (where the game loop is ran). Blocks until game
  * is over
  *
- * @param g The game to start
- * @return 0 on success, errcode on failure
+ * @param *game_t: The game to start
  */
-int game_start(game *g);
+void game_run(game_t *g);
 
 #endif

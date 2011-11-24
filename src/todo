@@ -1,3 +1,16 @@
+tmp
+----
+game => game_t
+
+
+NEW
+----
+-Move player_gun_recharge in game_state to the specific gun
+-Remove game_state_get_width()(height) calls and just define them (or maybe extern them)
+
+
+OLD
+-----
 Implement a basic bullet to get things working.
 
 Change some things to getters and setters so that we can change something

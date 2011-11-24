@@ -4,40 +4,36 @@
 #include "game.h"
 #include "errors.h"
 
-/* Screen update settings */
-enum {
-    /* How many times per second we want to update the game state */
-    TICKS_PER_SECOND = 60,
+/* How many times per second we want to update the game state */
+#define TICKS_PER_SECOND = 60
 
-    /* Milliseconds between when each game state update should occur */
-    SKIP_TICKS = 1000 / TICKS_PER_SECOND,
+/* Milliseconds between when each game state update should occur */
+#define SKIP_TICKS = 1000 / TICKS_PER_SECOND
 
-    /* The maximum number of frames that can be skipped */
-    MAX_FRAMESKIP = 10,
-};
+/* The maximum number of frames that can be skipped */
+#define  MAX_FRAMESKIP = 10
 
 
-static int game_sdl_init(game *g)
-{
+static void game_sdl_init(game_t *g) {
+    g->event = malloc(sizeof(SDL_Event));
+    if(!g->event)
+        system_error("malloc error on game_sdl_init");
+
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
-        return ERR_SDL_INIT;
+        app_error("SDL failed to init");
 
     g->surface = SDL_SetVideoMode(game_state_get_width(),
         game_state_get_height(), 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
 
-    if(g->surface == NULL)
-        return ERR_SDL_INIT;
-
-    return HUGE_SUCCESS;
+    if(!g->surface == NULL)
+        app_error("SDL surface didn't init properly");
 }
 
-static void game_stop(game *g)
-{
+static void game_stop(game_t *g) {
     g->running = 0;
 }
 
-static void game_handle_input(game *g)
-{
+static void game_handle_input(game_t *g) {
     while(SDL_PollEvent(g->event)) {
         if(g->event->type == SDL_QUIT)
             game_stop(g);
@@ -70,8 +66,7 @@ static void game_handle_input(game *g)
     }
 }
 
-static void game_draw_player(game* g)
-{
+static void game_draw_player(game_t *g) {
     SDL_Rect DestR;
 
     if(g->surface == NULL || g->state->player_ship->sprite->pic == NULL)
@@ -83,8 +78,7 @@ static void game_draw_player(game* g)
     SDL_BlitSurface(g->state->player_ship->sprite->pic, NULL, g->surface, &DestR);
 }
 
-static void game_update_display(game *g, float interpolation)
-{
+static void game_update_display(game_t *g, float interpolation) {
     /* Prepare the background for redrawing */
     SDL_FillRect(g->surface, NULL, 0x000000);
 
@@ -95,42 +89,21 @@ static void game_update_display(game *g, float interpolation)
     SDL_Flip(g->surface);
 }
 
-static void game_update(game *g)
-{
+static void game_update(game_t *g) {
     game_handle_input(g);
     game_state_update(g->state);
 }
 
-int game_init(game **g)
-{
-    int error;
-
+void game_init(game_t **g) {
     *g = malloc(sizeof(game));
     if(!*g)
-        return ERR_MALLOC;
+        system_error("malloc error on game init");
 
-    (**g).event = malloc(sizeof(SDL_Event));
-    if(!(**g).event)
-        return ERR_MALLOC;
-
-    error = game_state_init(&((**g).state));
-    if(error != HUGE_SUCCESS) {
-        free(*g);
-        return error;
-    }
-
-    error = game_sdl_init(*g);
-    if(error != HUGE_SUCCESS) {
-        game_state_free((**g).state);
-        free(*g);
-        return error;
-    }
-
-    return HUGE_SUCCESS;
+    game_state_init(&((**g).state));
+    game_sdl_init(*g);
 }
 
-void game_free(game *g)
-{
+void game_free(game_t *g) {
     assert(g);
 
     game_state_free(g->state);
@@ -139,8 +112,9 @@ void game_free(game *g)
     free(g);
 }
 
-int game_start(game *g)
-{
+/* This will update teh display as fast as possible, but only
+ * update the underlying game state on a fixed time-stamp system */
+void game_run(game_t *g) {
     /* The next time that the game state should be updated */
     unsigned int next_game_tick;
 
@@ -167,28 +141,15 @@ int game_start(game *g)
         game_update_display(g, (float) (SDL_GetTicks() + SKIP_TICKS
                             - next_game_tick) / (float) (SKIP_TICKS));
     }
-
-    return HUGE_SUCCESS;
 }
 
-int main()
-{
-    int error;
-    game *g;
+int main() {
+    game_t *g;
 
-    error = game_init(&g);
-    if(error != HUGE_SUCCESS) {
-        printf("%s \n", err_string(error));
-        return error;
-    }
-
-    /* main loop */
-    error = game_start(g);
-    if(error != HUGE_SUCCESS) {
-        printf("%s \n", err_string(error));
-    }
-
-    /* cleanup */
+    game_init(&g);
+    game_run(g);
     game_free(g);
-    return error;
+
+    return 0;
 }
+
