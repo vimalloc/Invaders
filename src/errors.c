@@ -10,8 +10,7 @@ static struct {
     {ERR_SPRITE, "Error regarding a SDL_Surface (sprite)"}
 };
 
-const char* err_string(int errcode)
-{
+const char* err_string(int errcode) {
     unsigned int i;
 
     for(i=0; i<(sizeof(errcodes)/sizeof(errcodes[0])); i++) {
@@ -21,3 +20,14 @@ const char* err_string(int errcode)
 
     return "An unknown error occurred";
 }
+
+void app_error(char *msg) {
+    fprintf(stderr, "%s\n", msg);
+    exit(1);
+}
+
+void system_error(char *msg) {
+    fprintf(stderr, "%s: %s\n", msg, strerror(errno));
+    exit(1);
+}
+

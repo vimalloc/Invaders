@@ -23,4 +23,8 @@ enum {
 */
 const char* err_string(int errcode);
 
+void app_error(char *msg);
+void system_error(char *msg);
+
 #endif
+
