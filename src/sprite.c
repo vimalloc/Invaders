@@ -1,8 +1,11 @@
+#include <assert.h>
+#include <stdlib.h>
+
 #include "sprite.h"
 #include "errors.h"
 
-#include <assert.h>
-#include <stdlib.h>
+/* Temp, to get this working. Will Change so that sprite.c owns all sprites */
+static sprite_t *basic_bullet;
 
 void sprite_load_bmp(sprite_t **s, char *file) {
     *s = malloc(sizeof(sprite_t));
@@ -27,4 +30,13 @@ int sprite_width(sprite_t *s) {
 
 int sprite_height(sprite_t *s) {
     return s->pic->h;
+}
+
+sprite_t* sprite_get_basic_bullet() {
+    /* Basically a singleton */
+    if(!basic_bullet) {
+        sprite_load_bmp(&basic_bullet, "../images/player.bmp");
+    }
+
+    return basic_bullet;
 }

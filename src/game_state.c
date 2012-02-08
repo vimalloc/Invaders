@@ -5,6 +5,7 @@
 #include "errors.h"
 #include "ship.h"
 #include "gun.h"
+#include "bullet.h"
 
 /* Width of the screen for the playable game area */
 #define GAME_WIDTH 640
@@ -91,6 +92,8 @@ static void move_ship_right(ship_t *ship) {
 }
 
 static void process_player_actions(game_state_t *state) {
+    bullet_t *bullet;
+
     if(state->player_move_up)
         move_ship_up(state->player_ship);
 
@@ -103,8 +106,18 @@ static void process_player_actions(game_state_t *state) {
     if(state->player_move_right)
         move_ship_right(state->player_ship);
 
-    if(state->player_fire)
-        gun_fire(state->player_ship->gun);
+    if(state->player_fire) {
+        bullet = gun_fire(state->player_ship->xpos,
+                          state->player_ship->xpos,
+                          state->player_ship->gun);
+        if(bullet) {
+            /* Add this bullet to the list of all bullets */
+
+            /* testing */
+            printf("PEW\n");
+            bullet_free(bullet);
+        }
+    }
 }
 
 static void update_gun_charge(game_state_t *state) {

@@ -30,4 +30,7 @@ int sprite_width(sprite_t *s);
 /* Returns the height of this sprite */
 int sprite_height(sprite_t *s);
 
+/* Returns the sprite for the basic bullet */
+sprite_t* sprite_get_basic_bullet();
+
 #endif

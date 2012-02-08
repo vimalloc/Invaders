@@ -3,6 +3,8 @@
 #include <assert.h>
 
 #include "errors.h"
+#include "sprite.h"
+#include "bullet.h"
 #include "gun.h"
 
 static void gun_init(gun_t **g, int charge_rate) {
@@ -26,13 +28,18 @@ void gun_free(gun_t *g) {
     free(g);
 }
 
-void gun_fire(gun_t *g) {
+bullet_t* gun_fire(int xpos, int ypos, gun_t *g) {
+    bullet_t *b; /* The bullet this gun creates */
+
     assert(g);
 
-    if(g->current_charge == 0) {
-        g->current_charge = 1;
-        printf("%s\n", "PEW");
-    }
+    /* If the gun isn't charged yet, return null */
+    if(g->current_charge)
+        return NULL;
+
+    g->current_charge = 1;
+    b = bullet_create_basic(xpos, ypos, sprite_get_basic_bullet());
+    return b;
 }
 
 void gun_recharge(gun_t *g) {
