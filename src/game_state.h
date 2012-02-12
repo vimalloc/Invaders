@@ -8,15 +8,17 @@
 #define GAME_STATE_H
 
 #include "ship.h"
+#include "linked_list.h"
 
 /* Handle for the game state object */
 typedef struct {
-    ship_t *player_ship;      /* The player controlled ship */
+    ship_t *player_ship;    /* The player controlled ship */
     int player_move_up;     /* Indicates the player ship wants to move up */
     int player_move_down;   /* Indicates the player ship wants to move down */
     int player_move_left;   /* Indicates the player ship wants to move left */
     int player_move_right;  /* Indicates the player ship wants to move right */
     int player_fire;        /* Indicates the player ship wants to firing */
+    ll_t *bullets;          /* Linked list of all currently active bullets */
 } game_state_t;
 
 /**

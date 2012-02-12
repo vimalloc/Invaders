@@ -10,12 +10,12 @@
  * use the same function pointer for multiple bullets instead of creating a new
  * one for each bullet */
 static void move_basic_bullet (bullet_t *b) {
-    b->ypos -= 5;
+    b->ypos -= 7;
 }
 
 void bullet_update_position(bullet_t *b) {
     assert(b);
-    /* b->(*move_bullet)(b); */
+    b->move_bullet(b);
 }
 
 
@@ -40,7 +40,7 @@ bullet_t* bullet_create_basic(int start_x, int start_y, sprite_t *sprite) {
     bullet->ypos = start_y;
     bullet->sprite = sprite;
 
-    /* Call the function pointer first to move the bullet past the ship */
+    /* Set the move bullet function pointer */
     bullet->move_bullet = &move_basic_bullet;
 
     return bullet;

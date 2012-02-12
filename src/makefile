@@ -24,11 +24,11 @@ gun.o : gun.h gun.c errors.o sprite.o
 ship.o : ship.h ship.c sprite.o errors.o gun.o
 	$(CC) $(CPPFLAGS) -c ship.c
 
-game_state.o : game_state.h game_state.c ship.o errors.o bullet.o
+game_state.o : game_state.h game_state.c ship.o errors.o bullet.o linked_list.o
 	$(CC) $(CPPFLAGS) -c game_state.c
 
 game.o : game.h game.c game_state.o errors.o
 	$(CC) $(CPPFLAGS) -c game.c
 
 Invaders : game.o
-	$(CC) $(CPPFLAGS) errors.o sprite.o bullet.o gun.o ship.o game_state.o game.o -lSDL
+	$(CC) $(CPPFLAGS) errors.o linked_list.o sprite.o bullet.o gun.o ship.o game_state.o game.o -lSDL

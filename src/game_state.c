@@ -28,6 +28,9 @@ void game_state_init(game_state_t **state) {
     /* Load the sprite for the player ship */
     sprite_load_bmp(&player_sprite, "../images/player.bmp");
 
+    /* Init the linked list to hold bullets */
+    (**state).bullets = ll_init();
+
     /* Load the players ship for this game. This sprite is owned by this struct */
     ship_init(&(**state).player_ship, player_sprite, PLAYER_SPEED);
 
@@ -49,6 +52,7 @@ void game_state_init(game_state_t **state) {
 void game_state_free(game_state_t* state) {
     assert(state);
 
+    ll_free(state->bullets);
     sprite_free(state->player_ship->sprite);
     ship_free(state->player_ship);
     free(state);
@@ -108,14 +112,12 @@ static void process_player_actions(game_state_t *state) {
 
     if(state->player_fire) {
         bullet = gun_fire(state->player_ship->xpos,
-                          state->player_ship->xpos,
+                          state->player_ship->ypos,
                           state->player_ship->gun);
-        if(bullet) {
-            /* Add this bullet to the list of all bullets */
 
-            /* testing */
-            printf("PEW\n");
-            bullet_free(bullet);
+        /* If a bullet was fired, add it to the bullets linked list */
+        if(bullet) {
+            ll_insert(state->bullets, bullet);
         }
     }
 }
@@ -124,14 +126,39 @@ static void update_gun_charge(game_state_t *state) {
     gun_recharge(state->player_ship->gun);
 }
 
+static void process_bullets(game_state_t *state) {
+    ll_node_t *node;
+    ll_node_t *next_node;
+    bullet_t *bullet;
+
+    node = ll_get_first_node(state->bullets);
+    while(node) {
+        /* This is so we can remove a node from the linked list if the bullet
+         * is out of the screen area, without having to do any special checks */
+        next_node = ll_next_node(state->bullets, node);
+
+        /* Update positions */
+        bullet = (bullet_t *)ll_get_item(node);
+        bullet_update_position(bullet);
+
+        /* free bullet if it's out of the screen */
+        if(bullet->ypos < 0 || bullet->ypos > GAME_HEIGHT ||
+           bullet->xpos < 0 || bullet->xpos > GAME_WIDTH) {
+            ll_remove(node);
+            bullet_free(bullet);
+        }
+
+        /* Set node to the next_node, and process that bullet */
+        node = next_node;
+    }
+
+    /* TODO - process colisions */
+}
+
 void game_state_update(game_state_t *state) {
-    /* Update the guns recharge */
-    update_gun_charge(state);
+    update_gun_charge(state);      /* Update the guns charge */
+    process_player_actions(state); /* Handle players input actions */
+    process_bullets(state);        /* Process gun fire movement and colisions */
 
-    /* Process player actions */
-    process_player_actions(state);
-
-    /* Process gun fire movement */
-
-    /* Process alien movement */
+    /* TODO - Process alien actions */
 }

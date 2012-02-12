@@ -3,6 +3,9 @@
 
 #include "game.h"
 #include "errors.h"
+#include "linked_list.h"
+#include "bullet.h"
+#include "sprite.h"
 
 /* How many times per second we want to update the game state */
 #define TICKS_PER_SECOND 60
@@ -80,12 +83,32 @@ static void game_draw_player(game_t *g) {
     SDL_BlitSurface(g->state->player_ship->sprite->pic, NULL, g->surface, &DestR);
 }
 
+static void game_draw_bullets(game_t *g) {
+    SDL_Rect DestR;
+    ll_node_t *node;
+    bullet_t *bullet;
+
+    node = ll_get_first_node(g->state->bullets);
+    while(node) {
+        bullet = (bullet_t *)ll_get_item(node);
+
+        DestR.x = bullet->xpos;
+        DestR.y = bullet->ypos;
+        SDL_BlitSurface(sprite_get_basic_bullet()->pic, NULL, g->surface, &DestR);
+
+        node = ll_next_node(g->state->bullets, node);
+    }
+}
+
 static void game_update_display(game_t *g, float interpolation) {
     /* Prepare the background for redrawing */
     SDL_FillRect(g->surface, NULL, 0x000000);
 
     /* Add the player to the new surface */
     game_draw_player(g);
+
+    /* Add the bullets to tne new surface */
+    game_draw_bullets(g);
 
     /* Draw the new surface */
     SDL_Flip(g->surface);

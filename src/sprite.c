@@ -35,7 +35,7 @@ int sprite_height(sprite_t *s) {
 sprite_t* sprite_get_basic_bullet() {
     /* Basically a singleton */
     if(!basic_bullet) {
-        sprite_load_bmp(&basic_bullet, "../images/player.bmp");
+        sprite_load_bmp(&basic_bullet, "../images/basic_bullet.bmp");
     }
 
     return basic_bullet;
