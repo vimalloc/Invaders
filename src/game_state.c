@@ -111,7 +111,9 @@ static void process_player_actions(game_state_t *state) {
         move_ship_right(state->player_ship);
 
     if(state->player_fire) {
-        bullet = gun_fire(state->player_ship->xpos,
+        /* Hard coded to fire from the center of the player ship, will fix
+         * this in a more proper manner later TODO */
+        bullet = gun_fire(state->player_ship->xpos + 9,
                           state->player_ship->ypos,
                           state->player_ship->gun);
 
