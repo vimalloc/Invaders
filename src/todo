@@ -1,3 +1,16 @@
 -Remove game_state_get_width()(height) calls and just define them (or maybe extern them)
--Move all of the sprites out of the game_state_t and into sprite.c
 -Implement some unit tests
+
+ALIENS (simple for now, can make more advanced later)
+------
+Have them appear on the screen in rows
+Have them move together
+Have each individual one fire randomly
+
+After aliens---
+
+LEVELS
+------
+Loads one level at a time
+Doesn't load next level until all badies are dead (or whatever conditions)
+In charge of spawning and tracking aliens
