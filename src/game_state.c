@@ -19,20 +19,16 @@
 void game_state_init(game_state_t **state) {
     int ship_height;
     int ship_width;
-    sprite_t *player_sprite; /* owned by this game_state struct */
 
     *state = malloc(sizeof(game_state_t));
     if(!*state)
         system_error("malloc error on game_state_init");
 
-    /* Load the sprite for the player ship */
-    sprite_load_bmp(&player_sprite, "../images/player.bmp");
-
     /* Init the linked list to hold bullets */
     (**state).bullets = ll_init();
 
-    /* Load the players ship for this game. This sprite is owned by this struct */
-    ship_init(&(**state).player_ship, player_sprite, PLAYER_SPEED);
+    /* Load the players ship for this game */
+    ship_init(&(**state).player_ship, sprite_get_player_ship(), PLAYER_SPEED);
 
     /* Center the ships position on the game board */
     ship_height = ship_get_height((**state).player_ship);
@@ -53,7 +49,6 @@ void game_state_free(game_state_t* state) {
     assert(state);
 
     ll_free(state->bullets);
-    sprite_free(state->player_ship->sprite);
     ship_free(state->player_ship);
     free(state);
 }
