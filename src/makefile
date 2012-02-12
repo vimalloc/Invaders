@@ -9,6 +9,9 @@ clean :
 errors.o : errors.h errors.c
 	$(CC) $(CPPFLAGS) -c errors.c
 
+linked_list.o : linked_list.h linked_list.c errors.o
+	$(CC) $(CPPFLAGS) -c linked_list.c
+
 sprite.o : sprite.h sprite.c errors.o
 	$(CC) $(CPPFLAGS) -c sprite.c
 
