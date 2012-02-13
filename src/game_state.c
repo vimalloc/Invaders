@@ -6,6 +6,7 @@
 #include "ship.h"
 #include "gun.h"
 #include "bullet.h"
+#include "alien.h"
 
 /* Width of the screen for the playable game area */
 #define GAME_WIDTH 640
@@ -42,6 +43,9 @@ void game_state_init(game_state_t **state) {
     (**state).player_move_left = 0;
     (**state).player_move_right = 0;
     (**state).player_fire = 0;
+
+    /* TODO - TESTING */
+    (**state).alien = alien_basic_init();
 }
 
 

@@ -74,9 +74,6 @@ static void game_handle_input(game_t *g) {
 static void game_draw_player(game_t *g) {
     SDL_Rect DestR;
 
-    if(g->surface == NULL || g->state->player_ship->sprite->pic == NULL)
-        assert(0);
-
     DestR.x = g->state->player_ship->xpos;
     DestR.y = g->state->player_ship->ypos;
 
@@ -100,6 +97,15 @@ static void game_draw_bullets(game_t *g) {
     }
 }
 
+static void game_draw_aliens(game_t *g) {
+    SDL_Rect DestR;
+
+    DestR.x = g->state->alien->ship->xpos;
+    DestR.y = g->state->alien->ship->ypos;
+
+    SDL_BlitSurface(g->state->alien->ship->sprite->pic, NULL, g->surface, &DestR);
+}
+
 static void game_update_display(game_t *g, float interpolation) {
     /* Prepare the background for redrawing */
     SDL_FillRect(g->surface, NULL, 0x000000);
@@ -109,6 +115,9 @@ static void game_update_display(game_t *g, float interpolation) {
 
     /* Add the bullets to tne new surface */
     game_draw_bullets(g);
+
+    /* Draw the aliens to the new survace */
+    game_draw_aliens(g);
 
     /* Draw the new surface */
     SDL_Flip(g->surface);

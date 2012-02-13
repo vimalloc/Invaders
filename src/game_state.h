@@ -8,6 +8,7 @@
 #define GAME_STATE_H
 
 #include "ship.h"
+#include "alien.h"
 #include "linked_list.h"
 
 /* Handle for the game state object */
@@ -19,6 +20,7 @@ typedef struct {
     int player_move_right;  /* Indicates the player ship wants to move right */
     int player_fire;        /* Indicates the player ship wants to firing */
     ll_t *bullets;          /* Linked list of all currently active bullets */
+    alien_t *alien;        /* TODO - TESTING. Rendering alien on screen */
 } game_state_t;
 
 /**
@@ -48,3 +50,4 @@ int game_state_get_height();
 void game_state_update(game_state_t *state);
 
 #endif
+

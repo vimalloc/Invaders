@@ -14,3 +14,8 @@ LEVELS
 Loads one level at a time
 Doesn't load next level until all badies are dead (or whatever conditions)
 In charge of spawning and tracking aliens
+
+NOW
+-Need to pass the correct gun to ship_init
+-Create another gun object that fires downwards for aliens
+-New alien sprite
