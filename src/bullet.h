@@ -44,4 +44,7 @@ void bullet_free(bullet_t *bullet);
  */
 bullet_t* bullet_create_basic(int start_x, int start_y, sprite_t *sprite);
 
+int bullet_get_height(bullet_t *b);
+int bullet_get_width(bullet_t *b);
+
 #endif

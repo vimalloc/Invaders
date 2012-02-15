@@ -127,33 +127,82 @@ static void update_gun_charge(game_state_t *state) {
     gun_recharge(state->player_ship->gun);
 }
 
+/* Returns the alien ship this bullet colided with if a collision occurred,
+ * or NULL otherwise */
+static alien_t* check_alien_colisions(game_state_t *state, bullet_t *bullet) {
+    /*
+     * This is based on Charles Brentana's answer this stack overflow question:
+     * http://stackoverflow.com/questions/306316
+     *
+     * For visualization see: http://silentmatt.com/rectangle-intersection/
+     */
+
+    /*
+     * bx1 = bullets x position
+     * bx2 = bullets x position + bullet width
+     * by1 = bullets y position
+     * by2 = bullets y position + bullet height
+     * sx1 = alien x posision
+     * sx2 = alien x position + alien width
+     * sy1 = alien y position
+     * sy2 = alien y position + alien height
+     */
+    int bx1, bx2, by1, by2, sx1, sx2, sy1, sy2;
+    ship_t *ship;   /* The ship struct for the alien ship */
+
+    ship = state->alien->ship;
+    bx1 = bullet->xpos;
+    bx2 = bx1 + bullet_get_width(bullet);
+    by1 = bullet->ypos;
+    by2 = bx2 + bullet_get_height(bullet);
+    sx1 = ship->xpos;
+    sx2 = sx1 + ship_get_width(ship);
+    sy1 = ship->ypos;
+    sy2 = sy1 + ship_get_height(ship);
+
+    if(bx1 < sx2 &&
+       bx2 > sx1 &&
+       by1 < sy2 &&
+       by2 > sy1)
+        return state->alien;
+
+    return NULL;
+}
+
 static void process_bullets(game_state_t *state) {
     ll_node_t *node;
     ll_node_t *next_node;
     bullet_t *bullet;
+    alien_t *colided;   /* alien ship a bullet colided with */
 
     node = ll_get_first_node(state->bullets);
     while(node) {
         /* This is so we can remove a node from the linked list if the bullet
-         * is out of the screen area, without having to do any special checks */
+         * without having to do any special checks */
         next_node = ll_next_node(state->bullets, node);
 
         /* Update positions */
         bullet = (bullet_t *)ll_get_item(node);
         bullet_update_position(bullet);
 
-        /* free bullet if it's out of the screen */
+        /* If the bullet is out of the screen then free it. Otherwise, check
+         * and proccess colisions */
         if(bullet->ypos < 0 || bullet->ypos > GAME_HEIGHT ||
            bullet->xpos < 0 || bullet->xpos > GAME_WIDTH) {
             ll_remove(node);
             bullet_free(bullet);
         }
+        else {
+           colided =  check_alien_colisions(state, bullet);
+           if(colided) {
+                /* TODO - Process damage, etc with the colision */
+                ll_remove(node);
+                bullet_free(bullet);
+           }
+        }
 
-        /* Set node to the next_node, and process that bullet */
         node = next_node;
     }
-
-    /* TODO - process colisions */
 }
 
 void game_state_update(game_state_t *state) {

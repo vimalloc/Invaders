@@ -46,3 +46,11 @@ bullet_t* bullet_create_basic(int start_x, int start_y, sprite_t *sprite) {
     return bullet;
 }
 
+int bullet_get_width(bullet_t *b) {
+    return sprite_width(b->sprite);
+}
+
+int bullet_get_height(bullet_t *b) {
+    return sprite_height(b->sprite);
+}
+
