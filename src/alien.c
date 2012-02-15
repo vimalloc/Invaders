@@ -3,6 +3,7 @@
 #include "sprite.h"
 
 #define BASIC_ALIEN_SPEED 4
+#define BASIC_ALIEN_HEALTH 25
 
 alien_t* alien_basic_init() {
     alien_t *alien;
@@ -13,7 +14,7 @@ alien_t* alien_basic_init() {
 
     ship_init(&(alien->ship), sprite_get_basic_alien_ship(), BASIC_ALIEN_SPEED);
 
-    alien->health = 25;
+    alien->health = BASIC_ALIEN_HEALTH;
 
     /* Set the alien ship to the middle of the screen for testing */
     alien->ship->xpos = 320;
