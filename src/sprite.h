@@ -36,4 +36,7 @@ sprite_t* sprite_get_basic_bullet();
 /* Returns the sprite for the player ship */
 sprite_t* sprite_get_player_ship();
 
+/* Returns the sprite for the basic alien ship */
+sprite_t* sprite_get_basic_alien_ship();
+
 #endif

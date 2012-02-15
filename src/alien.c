@@ -11,7 +11,7 @@ alien_t* alien_basic_init() {
     if(!alien)
         system_error("malloc error in alien_basic_init");
 
-    ship_init(&(alien->ship), sprite_get_player_ship(), BASIC_ALIEN_SPEED);
+    ship_init(&(alien->ship), sprite_get_basic_alien_ship(), BASIC_ALIEN_SPEED);
 
     alien->health = 25;
 
