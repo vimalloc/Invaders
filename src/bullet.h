@@ -8,6 +8,7 @@ typedef struct bullet_t bullet_t;
 struct bullet_t {
     int xpos;       /* This bullets xpos */
     int ypos;       /* This bullets ypos */
+    int damage;     /* How much damage this bullet does */
     sprite_t *sprite; /* A sprite for this bullet_t */
 
     /* A function pointer to a movement algorithm for each bullet_t */

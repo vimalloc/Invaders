@@ -150,6 +150,10 @@ static alien_t* check_alien_colisions(game_state_t *state, bullet_t *bullet) {
     int bx1, bx2, by1, by2, sx1, sx2, sy1, sy2;
     ship_t *ship;   /* The ship struct for the alien ship */
 
+    /* If there are no active aliens just return now */
+    if(!state->alien)
+        return NULL;
+
     ship = state->alien->ship;
     bx1 = bullet->xpos;
     bx2 = bx1 + bullet_get_width(bullet);
@@ -173,7 +177,7 @@ static void process_bullets(game_state_t *state) {
     ll_node_t *node;
     ll_node_t *next_node;
     bullet_t *bullet;
-    alien_t *colided;   /* alien ship a bullet colided with */
+    alien_t *colided_alien;   /* alien ship a bullet colided with */
 
     node = ll_get_first_node(state->bullets);
     while(node) {
@@ -193,11 +197,16 @@ static void process_bullets(game_state_t *state) {
             bullet_free(bullet);
         }
         else {
-           colided =  check_alien_colisions(state, bullet);
-           if(colided) {
-                /* TODO - Process damage, etc with the colision */
-                ll_remove(node);
-                bullet_free(bullet);
+           colided_alien =  check_alien_colisions(state, bullet);
+           if(colided_alien) {
+               if(alien_process_damage(colided_alien, bullet->damage)) {
+                   alien_free(colided_alien);
+
+                   /* TODO - TEMP to test on a single alien */
+                   state->alien = NULL;
+               }
+               ll_remove(node);
+               bullet_free(bullet);
            }
         }
 

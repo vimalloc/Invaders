@@ -100,6 +100,10 @@ static void game_draw_bullets(game_t *g) {
 static void game_draw_aliens(game_t *g) {
     SDL_Rect DestR;
 
+    /* TODO - temp for testing on a single alien */
+    if(!g->state->alien)
+        return;
+
     DestR.x = g->state->alien->ship->xpos;
     DestR.y = g->state->alien->ship->ypos;
 

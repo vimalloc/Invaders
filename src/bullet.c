@@ -6,6 +6,8 @@
 #include "sprite.h"
 #include "errors.h"
 
+#define BASIC_DAMAGE 15
+
 /* Should create the update function pointers here staticaly so that we we can
  * use the same function pointer for multiple bullets instead of creating a new
  * one for each bullet */
@@ -38,6 +40,7 @@ bullet_t* bullet_create_basic(int start_x, int start_y, sprite_t *sprite) {
     /* Set all the attributes for this bullet */
     bullet->xpos = start_x;
     bullet->ypos = start_y;
+    bullet->damage = BASIC_DAMAGE;
     bullet->sprite = sprite;
 
     /* Set the move bullet function pointer */
