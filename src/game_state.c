@@ -154,7 +154,7 @@ static alien_t* check_alien_colisions(game_state_t *state, bullet_t *bullet) {
     bx1 = bullet->xpos;
     bx2 = bx1 + bullet_get_width(bullet);
     by1 = bullet->ypos;
-    by2 = bx2 + bullet_get_height(bullet);
+    by2 = by1 + bullet_get_height(bullet);
     sx1 = ship->xpos;
     sx2 = sx1 + ship_get_width(ship);
     sy1 = ship->ypos;
