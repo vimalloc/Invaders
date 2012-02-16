@@ -10,7 +10,7 @@ typedef struct {
 } alien_t;
 
 /* Creates and returns a basic alien ship */
-alien_t* alien_basic_init();
+alien_t* alien_basic_init(int xpos, int ypos);
 
 /* Frees an alien ship */
 void alien_free(alien_t *alien);

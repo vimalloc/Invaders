@@ -6,6 +6,7 @@
 #include "linked_list.h"
 #include "bullet.h"
 #include "sprite.h"
+#include "alien.h"
 
 /* How many times per second we want to update the game state */
 #define TICKS_PER_SECOND 60
@@ -99,15 +100,19 @@ static void game_draw_bullets(game_t *g) {
 
 static void game_draw_aliens(game_t *g) {
     SDL_Rect DestR;
+    ll_node_t *node;
+    alien_t *alien;
 
-    /* TODO - temp for testing on a single alien */
-    if(!g->state->alien)
-        return;
+    node = ll_get_first_node(g->state->level->aliens);
+    while(node) {
+        alien = (alien_t *)ll_get_item(node);
 
-    DestR.x = g->state->alien->ship->xpos;
-    DestR.y = g->state->alien->ship->ypos;
+        DestR.x = alien->ship->xpos;
+        DestR.y = alien->ship->ypos;
+        SDL_BlitSurface(alien->ship->sprite->pic, NULL, g->surface, &DestR);
 
-    SDL_BlitSurface(g->state->alien->ship->sprite->pic, NULL, g->surface, &DestR);
+        node = ll_next_node(g->state->level->aliens, node);
+    }
 }
 
 static void game_update_display(game_t *g, float interpolation) {
