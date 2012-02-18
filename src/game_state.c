@@ -54,6 +54,7 @@ void game_state_free(game_state_t* state) {
 
     ll_free(state->bullets);
     ship_free(state->player_ship);
+    level_free(state->level);
     free(state);
 }
 
