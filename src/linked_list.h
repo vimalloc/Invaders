@@ -39,9 +39,10 @@ void ll_free(ll_t *ll);
 void ll_insert(ll_t *ll, void *item);
 
 /*
- * Removes the given node from the singly linked list
+ * Removes the given node from the singly linked list, and returns the next item
+ * in the linked list (NULL if that is the end of the list).
  */
-ll_node_t* ll_remove(ll_node_t *node);
+ll_node_t* ll_remove(ll_t *ll, ll_node_t *node);
 
 /*
  * Returns the next node in the linked list, or NULL if there

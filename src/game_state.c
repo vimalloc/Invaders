@@ -130,32 +130,27 @@ static void update_gun_charge(game_state_t *state) {
 
 static void process_bullets(game_state_t *state) {
     ll_node_t *node;
-    ll_node_t *next_node;
-    bullet_t *bullet;
+    bullet_t  *bullet;
 
     node = ll_get_first_node(state->bullets);
     while(node) {
-        /* This is so we can remove a node from the linked list if the bullet
-         * without having to do any special checks */
-        next_node = ll_next_node(state->bullets, node);
-
         /* Update positions */
-        bullet = (bullet_t *)ll_get_item(node);
+        bullet = (bullet_t *) ll_get_item(node);
         bullet_update_position(bullet);
 
-        /* If the bullet is out of the screen then free it. Otherwise, check
-         * and proccess colisions */
+        /* If the bullet is out of the screen then free it.
+         * Otherwise, check and process colisions */
         if(bullet->ypos < 0 || bullet->ypos > GAME_HEIGHT ||
            bullet->xpos < 0 || bullet->xpos > GAME_WIDTH) {
-            ll_remove(node);
+            node = ll_remove(state->bullets, node);
             bullet_free(bullet);
         }
         else if(level_process_colision(state->level, bullet)) {
-            ll_remove(node);
+            node = ll_remove(state->bullets, node);
             bullet_free(bullet);
         }
-
-        node = next_node;
+        else
+            node = ll_next_node(state->bullets, node);
     }
 }
 

@@ -33,8 +33,9 @@ void ll_free(ll_t *ll) {
 
     /* Free all of the nodes in the list*/
     node = ll->head->next;
-    while(node != ll->tail) {
-        node = ll_remove(node);
+    node = ll_get_first_node(ll);
+    while(node) {
+        node = ll_remove(ll, node);
     }
 
     free(ll->head);
@@ -56,7 +57,7 @@ void ll_insert(ll_t *ll, void *item) {
     head->next = node;
 }
 
-ll_node_t* ll_remove(ll_node_t *node) {
+ll_node_t* ll_remove(ll_t *ll, ll_node_t *node) {
     ll_node_t *next;
     ll_node_t *prev;
 
@@ -68,6 +69,8 @@ ll_node_t* ll_remove(ll_node_t *node) {
     next->prev = prev;
     free(node);
 
+    if(next ==  ll->tail)
+        return NULL;
     return next;
 }
 

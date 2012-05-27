@@ -69,8 +69,6 @@ int level_process_colision(level_t *level, bullet_t *bullet) {
     /* Process all of the aliens */
     node = ll_get_first_node(level->aliens);
     while(node) {
-        next_node = ll_next_node(level->aliens, node);
-
         /* Get everything from the alien ship being processed */
         alien = (alien_t *)ll_get_item(node);
         sx1 = alien->ship->xpos;
@@ -81,12 +79,12 @@ int level_process_colision(level_t *level, bullet_t *bullet) {
         /* Check for a colision */
         if(bx1 < sx2 && bx2 > sx1 && by1 < sy2 && by2 > sy1) {
             if(alien_process_damage(alien, bullet->damage)) {
+                ll_remove(level->aliens, node);
                 alien_free(alien);
-                ll_remove(node);
             }
             return 1;
         }
-        node = next_node;
+        node = ll_next_node(level->aliens, node);
     }
 
     return 0;
