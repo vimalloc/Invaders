@@ -11,6 +11,15 @@
 #include "linked_list.h"
 #include "level.h"
 
+/* Width of the screen for the playable game area */
+#define GAME_WIDTH 640
+
+/* Height of the screen for the playable game area */
+#define GAME_HEIGHT 480
+
+/* How many pixels the player moves per update */
+#define PLAYER_SPEED 4
+
 /* Handle for the game state object */
 typedef struct {
     ship_t *player_ship;    /* The player controlled ship */
@@ -37,12 +46,6 @@ game_state_t* game_state_init();
  * @param state The game state to free
  */
 void game_state_free(game_state_t *state);
-
-/**
- * Gets the deminisions of the game_state
- */
-int game_state_get_width();
-int game_state_get_height();
 
 /**
  * Updates the game state by 1 step

@@ -28,8 +28,8 @@ static void game_sdl_init(game_t *g) {
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
         app_error("SDL failed to init");
 
-    g->surface = SDL_SetVideoMode(game_state_get_width(),
-        game_state_get_height(), 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+    g->surface = SDL_SetVideoMode(GAME_WIDTH, GAME_HEIGHT,
+        32, SDL_HWSURFACE | SDL_DOUBLEBUF);
 
     if(!g->surface)
         app_error("SDL surface didn't init properly");

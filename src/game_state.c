@@ -8,15 +8,6 @@
 #include "bullet.h"
 #include "alien.h"
 
-/* Width of the screen for the playable game area */
-#define GAME_WIDTH 640
-
-/* Height of the screen for the playable game area */
-#define GAME_HEIGHT 480
-
-/* How many pixels the player moves per update */
-#define PLAYER_SPEED 4
-
 game_state_t* game_state_init() {
     game_state_t *state;
     int ship_height;
@@ -51,7 +42,6 @@ game_state_t* game_state_init() {
     return state;
 }
 
-
 void game_state_free(game_state_t* state) {
     ll_node_t *node;
 
@@ -71,17 +61,6 @@ void game_state_free(game_state_t* state) {
     free(state);
 }
 
-
-int game_state_get_width() {
-    return GAME_WIDTH;
-}
-
-
-int game_state_get_height() {
-    return GAME_HEIGHT;
-}
-
-
 static void move_ship_up(ship_t *ship) {
     ship->ypos -= ship_get_speed(ship);
     if(ship->ypos < 0)
@@ -94,13 +73,11 @@ static void move_ship_down(ship_t *ship) {
         ship->ypos = GAME_HEIGHT - ship_get_height(ship);
 }
 
-
 static void move_ship_left(ship_t *ship) {
     ship->xpos -= ship_get_speed(ship);
     if(ship->xpos < 0)
         ship->xpos = 0;
 }
-
 
 static void move_ship_right(ship_t *ship) {
     ship->xpos += ship_get_speed(ship);
