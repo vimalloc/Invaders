@@ -28,7 +28,16 @@ level_t* level_create_basic() {
 }
 
 void level_free(level_t* level) {
+    ll_node_t *node;
+
+    /* Free all of the aliends in the linked list, then the list itself */
+    node = ll_get_first_node(level->aliens);
+    while(node) {
+        alien_free((alien_t *) ll_get_item(node));
+        node = ll_remove(level->aliens, node);
+    }
     ll_free(level->aliens);
+
     free(level);
 }
 
