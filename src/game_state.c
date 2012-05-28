@@ -118,6 +118,19 @@ static void update_gun_charge(game_state_t *state) {
     gun_recharge(state->player_ship->gun);
 }
 
+/* Checks if a bullets position is currently outside of the
+ * boundaries of the screen */
+static int bullet_out_of_screen(bullet_t *b) {
+    if(b->ypos < 0 ||
+       b->ypos > GAME_HEIGHT ||
+       b->xpos < 0 ||
+       b->xpos > GAME_WIDTH) {
+        return 1;
+    }
+    return 0;
+}
+
+
 static void process_bullets(game_state_t *state) {
     ll_node_t *node;
     bullet_t  *bullet;
@@ -130,8 +143,7 @@ static void process_bullets(game_state_t *state) {
 
         /* If the bullet is out of the screen then free it.
          * Otherwise, check and process colisions */
-        if(bullet->ypos < 0 || bullet->ypos > GAME_HEIGHT ||
-           bullet->xpos < 0 || bullet->xpos > GAME_WIDTH) {
+        if(bullet_out_of_screen(bullet)) {
             node = ll_remove(state->bullets, node);
             bullet_free(bullet);
         }

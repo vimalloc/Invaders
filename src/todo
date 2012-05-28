@@ -3,9 +3,7 @@ hard coded to use a basic bullet
 
 player object, ship life/armor/etc, different inits from alien ships and player ships
 
--Remove game_state_get_width()(height) calls and just define them (or maybe extern them)
--Implement some unit tests
-
+Implement some unit tests
 Build guns for aliens
 Build AI for aliens
 Have players able to take damage
