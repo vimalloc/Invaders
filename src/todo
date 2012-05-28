@@ -1,3 +1,8 @@
+Have the gun struct control what kind of bullets are fired from it. right now it is
+hard coded to use a basic bullet
+
+player object, ship life/armor/etc, different inits from alien ships and player ships
+
 -Remove game_state_get_width()(height) calls and just define them (or maybe extern them)
 -Implement some unit tests
 

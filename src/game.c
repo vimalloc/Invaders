@@ -137,13 +137,17 @@ static void game_update(game_t *g) {
     game_state_update(g->state);
 }
 
-void game_init(game_t **g) {
-    *g = malloc(sizeof(game_t));
-    if(!*g)
+game_t* game_init() {
+    game_t *g;
+
+    g = malloc(sizeof(game_t));
+    if(!g)
         system_error("malloc error on game init");
 
-    game_state_init(&((**g).state));
-    game_sdl_init(*g);
+    g->state = game_state_init();
+    game_sdl_init(g);
+
+    return g;
 }
 
 void game_free(game_t *g) {
@@ -208,7 +212,7 @@ int main(int argc, char *argv[]) {
     sigaction_wrapper(SIGINT, sigint_handler);
 
     /* Start the game */
-    game_init(&g);
+    g = game_init();
     game_run(g);
     game_free(g);
 

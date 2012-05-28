@@ -12,23 +12,21 @@
 #include <stdlib.h>
 #include <string.h> /* used for strerror */
 
-enum {
-    HUGE_SUCCESS = 0,   /* I'm making a note here */
-    ERR_MALLOC   = -1,  /* Malloc error */
-    ERR_SDL      = -10, /* General error if something goes wrong with SDL */
-    ERR_SDL_INIT = -11, /* Error with initialing SDL */
-    ERR_SPRITE   = -12  /* Error regarding a SDL_Surface (sprite) */
-};
-
-/**
-* Gets the string assosicated with this error code
-*
-* @param errcode The error code to get the string of
-* @return A char* containging the string assosicated with this error code
-*/
-const char* err_string(int errcode);
-
+/*
+ * An error thrown by this program, such as an assertion failing or the
+ * state getting into a positions it shouldn't be able to
+ *
+ * prints the error message, then terminates the program.
+ */
 void app_error(char *msg);
+
+/*
+ * An error occurred during a system call, such as running out of memory
+ * on a malloc
+ *
+ * Prints the error message as well as the erno set by the syscall, then
+ * terminates the program.
+ */
 void system_error(char *msg);
 
 #endif

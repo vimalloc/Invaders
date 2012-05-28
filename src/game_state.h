@@ -29,7 +29,7 @@ typedef struct {
  * @param state The game state being initalized
  * @return 0 on success, errcode (< 0) on failure
  */
-void game_state_init(game_state_t **state);
+game_state_t* game_state_init();
 
 /**
  * Frees all the memory used by the game state

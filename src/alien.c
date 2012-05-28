@@ -12,7 +12,7 @@ alien_t* alien_basic_init(int xpos, int ypos) {
     if(!alien)
         system_error("malloc error in alien_basic_init");
 
-    ship_init(&(alien->ship), sprite_get_basic_alien_ship(), BASIC_ALIEN_SPEED);
+    alien->ship = ship_init(sprite_get_basic_alien_ship(), BASIC_ALIEN_SPEED);
 
     alien->health = BASIC_ALIEN_HEALTH;
     alien->ship->xpos = xpos;

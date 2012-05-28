@@ -6,13 +6,12 @@
 /* Forward declaration so we can have a pointer to a bullet_t in the struct */
 typedef struct bullet_t bullet_t;
 struct bullet_t {
-    int xpos;       /* This bullets xpos */
-    int ypos;       /* This bullets ypos */
-    int damage;     /* How much damage this bullet does */
+    int xpos;         /* This bullets xpos */
+    int ypos;         /* This bullets ypos */
+    int damage;       /* How much damage this bullet does */
     sprite_t *sprite; /* A sprite for this bullet_t */
 
     /* A function pointer to a movement algorithm for each bullet_t */
-    /* void movement_function_pointer(bullet *b); */
     void (*move_bullet)(bullet_t *b);
 };
 
@@ -40,8 +39,6 @@ void bullet_free(bullet_t *bullet);
  *               the sprite can be used for multiple bullets to save memory,
  *               so each bulle tdoes not own the sprite passed to it, and thus
  *               that sprite must be freed elseware
- *
- * @return 0 on success, error otherwise
  */
 bullet_t* bullet_create_basic(int start_x, int start_y, sprite_t *sprite);
 

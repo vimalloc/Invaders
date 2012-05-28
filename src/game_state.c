@@ -17,42 +17,55 @@
 /* How many pixels the player moves per update */
 #define PLAYER_SPEED 4
 
-void game_state_init(game_state_t **state) {
+game_state_t* game_state_init() {
+    game_state_t *state;
     int ship_height;
     int ship_width;
 
-    *state = malloc(sizeof(game_state_t));
-    if(!*state)
+    state = malloc(sizeof(game_state_t));
+    if(!state)
         system_error("malloc error on game_state_init");
 
     /* Init the linked list to hold bullets */
-    (**state).bullets = ll_init();
+    state->bullets = ll_init();
 
     /* Load the players ship for this game */
-    ship_init(&(**state).player_ship, sprite_get_player_ship(), PLAYER_SPEED);
+    state->player_ship = ship_init(sprite_get_player_ship(), PLAYER_SPEED);
 
     /* Center the ships position on the game board */
-    ship_height = ship_get_height((**state).player_ship);
-    ship_width = ship_get_width((**state).player_ship);
-    (**state).player_ship->ypos = GAME_HEIGHT - ship_height;
-    (**state).player_ship->xpos = (GAME_WIDTH + ship_width) / 2;
+    ship_height = ship_get_height(state->player_ship);
+    ship_width = ship_get_width(state->player_ship);
+    state->player_ship->ypos = GAME_HEIGHT - ship_height;
+    state->player_ship->xpos = (GAME_WIDTH + ship_width) / 2;
 
     /* Set the movement to zero by default */
-    (**state).player_move_up = 0;
-    (**state).player_move_down = 0;
-    (**state).player_move_left = 0;
-    (**state).player_move_right = 0;
-    (**state).player_fire = 0;
+    state->player_move_up = 0;
+    state->player_move_down = 0;
+    state->player_move_left = 0;
+    state->player_move_right = 0;
+    state->player_fire = 0;
 
     /* Create the level */
-    (**state).level = level_create_basic();
+    state->level = level_create_basic();
+
+    return state;
 }
 
 
 void game_state_free(game_state_t* state) {
+    ll_node_t *node;
+
     assert(state);
 
+    /* Free all of the bullets in memory from the linked list, then
+     * free the linked list itself */
+    node = ll_get_first_node(state->bullets);
+    while(node) {
+        bullet_free((bullet_t*) ll_get_item(node));
+        node = ll_remove(state->bullets, node);
+    }
     ll_free(state->bullets);
+
     ship_free(state->player_ship);
     level_free(state->level);
     free(state);

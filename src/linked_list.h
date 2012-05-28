@@ -30,6 +30,11 @@ ll_t* ll_init();
 
 /*
  * Frees all the memory used by a singly linked list
+ *
+ * WARNING: This doesn't free the the objects being stored in the linked list,
+ * as there may be special ways in which they should be freed to prevent a
+ * memory leak. Thus, before calling this you must iterate over the linked
+ * list and free all of the items pointed to in the nodes first.
  */
 void ll_free(ll_t *ll);
 

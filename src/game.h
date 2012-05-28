@@ -32,7 +32,7 @@ typedef void handler_t(int);
  *
  * @param g The game to initalize
  */
-void game_init(game_t **g);
+game_t* game_init();
 
 
 /**

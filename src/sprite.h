@@ -15,7 +15,7 @@ typedef struct {
  * @param file The file path of the bmp image to load
  * @return 0 on success, error (< 0) on failure
  */
-void sprite_load_bmp(sprite_t **s, char *file);
+sprite_t* sprite_load_bmp(char *file);
 
 /**
  * Frees all the memory used by this sprite.

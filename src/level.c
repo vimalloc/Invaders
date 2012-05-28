@@ -57,7 +57,6 @@ int level_process_colision(level_t *level, bullet_t *bullet) {
      */
     int bx1, bx2, by1, by2, sx1, sx2, sy1, sy2;
     ll_node_t *node;      /* Current node of a linked list */
-    ll_node_t *next_node; /* Next node of a linked list */
     alien_t *alien;       /* The alien we are proccess colisions on */
 
     /* Get the poisionts of the bullets */

@@ -7,20 +7,24 @@
 #include "bullet.h"
 #include "gun.h"
 
-static void gun_init(gun_t **g, int charge_rate) {
-    *g = malloc(sizeof(gun_t));
-    if(!*g)
+/* How fast each of the various guns will be able to fire */
+#define BASIC_GUN_SPEED 20
+
+static gun_t* gun_init(int charge_rate) {
+    gun_t* g;
+
+    g = malloc(sizeof(gun_t));
+    if(!g)
         system_error("malloc error in gun_init");
 
-    (**g).recharge_rate = charge_rate;
-    (**g).current_charge = 0;
+    g->recharge_rate = charge_rate;
+    g->current_charge = 0;
+
+    return g;
 }
 
 gun_t* gun_basic() {
-    gun_t *basic_gun;
-
-    gun_init(&basic_gun, 20);
-    return basic_gun;
+    return gun_init(BASIC_GUN_SPEED);
 }
 
 void gun_free(gun_t *g) {
