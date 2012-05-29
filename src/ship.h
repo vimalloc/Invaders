@@ -27,7 +27,7 @@ typedef struct {
  * owned by the ship, and will not get freeded when ship_free is called.
  * @param ship_speed How fast this ship can move
  */
-ship_t* ship_init(sprite_t *sprite, int ship_speed);
+ship_t* ship_init(sprite_t *sprite, int ship_speed, gun_t *gun);
 
 /**
  * Frees all the memory used by a ship

@@ -4,7 +4,7 @@
 #include "ship.h"
 #include "errors.h"
 
-ship_t* ship_init(sprite_t *sprite, int ship_speed) {
+ship_t* ship_init(sprite_t *sprite, int ship_speed, gun_t *g) {
     ship_t *s;
 
     assert(sprite);
@@ -14,7 +14,7 @@ ship_t* ship_init(sprite_t *sprite, int ship_speed) {
         system_error("malloc error in ship_init");
 
     /* Create the gun this ship will use */
-    s->gun = gun_player_basic();
+    s->gun = g;
 
     /* Set the values for this ship */
     s->sprite = sprite;

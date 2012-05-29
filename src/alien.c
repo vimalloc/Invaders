@@ -1,6 +1,7 @@
 #include "errors.h"
 #include "alien.h"
 #include "sprite.h"
+#include "gun.h"
 
 #define BASIC_ALIEN_SPEED 4
 #define BASIC_ALIEN_HEALTH 25
@@ -12,7 +13,8 @@ alien_t* alien_basic_init(int xpos, int ypos) {
     if(!alien)
         system_error("malloc error in alien_basic_init");
 
-    alien->ship = ship_init(sprite_get_basic_alien_ship(), BASIC_ALIEN_SPEED);
+    alien->ship = ship_init(sprite_get_basic_alien_ship(), BASIC_ALIEN_SPEED,
+                            gun_alien_basic());
 
     alien->health = BASIC_ALIEN_HEALTH;
     alien->ship->xpos = xpos;
