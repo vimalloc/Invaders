@@ -21,7 +21,8 @@ game_state_t* game_state_init() {
     state->bullets = ll_init();
 
     /* Load the players ship for this game */
-    state->player_ship = ship_init(sprite_get_player_ship(), PLAYER_SPEED);
+    state->player_ship = ship_init(sprite_get_player_ship(), PLAYER_SPEED,
+                                   gun_player_basic());
 
     /* Center the ships position on the game board */
     ship_height = ship_get_height(state->player_ship);

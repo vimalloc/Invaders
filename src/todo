@@ -1,5 +1,4 @@
-Have the gun struct control what kind of bullets are fired from it. right now it is
-hard coded to use a basic bullet
+Have alien fire the bullets from their guns
 
 player object, ship life/armor/etc, different inits from alien ships and player ships
 
