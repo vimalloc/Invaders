@@ -26,12 +26,7 @@ void bullet_update_position(bullet_t *b);
 void bullet_free(bullet_t *bullet);
 
 /**
- * Create basic bullets
- *
- * These are your basic bullets, which travel in a straight line one at a time.
- *
- * If this function fails to create a bullet_t object, it will close
- * the program.
+ * Functions for creating various typtes of bullets
  *
  * @param start_x The x position where these bullets are being 'fired' from
  * @param start_y The y position where these bullets are being 'fired' from
@@ -40,8 +35,13 @@ void bullet_free(bullet_t *bullet);
  *               so each bulle tdoes not own the sprite passed to it, and thus
  *               that sprite must be freed elseware
  */
+/*
+ * These are your basic bullets, which travel in a straight line one at a time.
+ */
 bullet_t* bullet_create_player_basic(int start_x, int start_y, sprite_t *sprite);
+bullet_t* bullet_create_alien_basic(int start_x, int start_y, sprite_t *sprite);
 
+/* Returns the width and height of a given bullet */
 int bullet_get_height(bullet_t *b);
 int bullet_get_width(bullet_t *b);
 

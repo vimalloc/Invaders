@@ -29,7 +29,7 @@ gun_t* gun_player_basic() {
 }
 
 gun_t* gun_alien_basic() {
-    return NULL;
+    return gun_init(BASIC_GUN_SPEED, &bullet_create_alien_basic);
 }
 
 void gun_free(gun_t *g) {

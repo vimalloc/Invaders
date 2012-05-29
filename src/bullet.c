@@ -11,8 +11,12 @@
 /* Should create the update function pointers here staticaly so that we we can
  * use the same function pointer for multiple bullets instead of creating a new
  * one for each bullet */
-static void move_basic_bullet (bullet_t *b) {
+static void move_basic_player_bullet (bullet_t *b) {
     b->ypos -= 7;
+}
+
+static void move_basic_alien_bullet (bullet_t *b) {
+    b->ypos += 7;
 }
 
 void bullet_update_position(bullet_t *b) {
@@ -26,8 +30,8 @@ void bullet_free(bullet_t *bullet) {
     free(bullet);
 }
 
-
-bullet_t* bullet_create_player_basic(int start_x, int start_y, sprite_t *sprite) {
+static bullet_t* bullet_create(int start_x, int start_y, sprite_t *sprite,
+                        void (*bullet_movement_function)(bullet_t*)) {
     bullet_t *bullet;
 
     assert(sprite);
@@ -44,9 +48,21 @@ bullet_t* bullet_create_player_basic(int start_x, int start_y, sprite_t *sprite)
     bullet->sprite = sprite;
 
     /* Set the move bullet function pointer */
-    bullet->move_bullet = &move_basic_bullet;
+    bullet->move_bullet = bullet_movement_function;
 
     return bullet;
+}
+
+/* Creates a bullet which uses hte move_basic_player_bullet as the function
+ * to update the bullets position */
+bullet_t* bullet_create_player_basic(int start_x, int start_y, sprite_t *sprite) {
+    return bullet_create(start_x, start_y, sprite, &move_basic_player_bullet);
+}
+
+/* Creates a bullet which uses hte move_basic_alien_bullet as the function
+ * to update the bullets position */
+bullet_t* bullet_create_alien_basic(int start_x, int start_y, sprite_t *sprite) {
+    return bullet_create(start_x, start_y, sprite, &move_basic_alien_bullet);
 }
 
 int bullet_get_width(bullet_t *b) {
