@@ -24,7 +24,7 @@ gun.o : gun.h gun.c errors.o sprite.o
 ship.o : ship.h ship.c sprite.o errors.o gun.o
 	$(CC) $(CPPFLAGS) -c ship.c
 
-alien.o : alien.h alien.c sprite.o gun.o errors.o gun.o
+alien.o : alien.h alien.c sprite.o gun.o errors.o
 	$(CC) $(CPPFLAGS) -c alien.c
 
 level.o : level.h level.c alien.o linked_list.o errors.o
