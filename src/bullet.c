@@ -27,7 +27,7 @@ void bullet_free(bullet_t *bullet) {
 }
 
 
-bullet_t* bullet_create_basic(int start_x, int start_y, sprite_t *sprite) {
+bullet_t* bullet_create_player_basic(int start_x, int start_y, sprite_t *sprite) {
     bullet_t *bullet;
 
     assert(sprite);

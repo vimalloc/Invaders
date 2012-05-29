@@ -10,7 +10,7 @@
 /* How fast each of the various guns will be able to fire */
 #define BASIC_GUN_SPEED 20
 
-static gun_t* gun_init(int charge_rate) {
+static gun_t* gun_init(int charge_rate, bullet_t* (*bullet_creator)(int, int, sprite_t)) {
     gun_t* g;
 
     g = malloc(sizeof(gun_t));
@@ -19,12 +19,17 @@ static gun_t* gun_init(int charge_rate) {
 
     g->recharge_rate = charge_rate;
     g->current_charge = 0;
+    g->bullet_type = bullet_creator;
 
     return g;
 }
 
-gun_t* gun_basic() {
-    return gun_init(BASIC_GUN_SPEED);
+gun_t* gun_player_basic() {
+    return gun_init(BASIC_GUN_SPEED, &bullet_create_player_basic);
+}
+
+gun_t* gun_alien_basic() {
+    return NULL;
 }
 
 void gun_free(gun_t *g) {
@@ -42,7 +47,7 @@ bullet_t* gun_fire(int xpos, int ypos, gun_t *g) {
         return NULL;
 
     g->current_charge = 1;
-    b = bullet_create_basic(xpos, ypos, sprite_get_basic_bullet());
+    b = g->bullet_type(xpos, ypos, sprite_get_basic_bullet());
     return b;
 }
 

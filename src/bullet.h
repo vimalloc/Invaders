@@ -40,7 +40,7 @@ void bullet_free(bullet_t *bullet);
  *               so each bulle tdoes not own the sprite passed to it, and thus
  *               that sprite must be freed elseware
  */
-bullet_t* bullet_create_basic(int start_x, int start_y, sprite_t *sprite);
+bullet_t* bullet_create_player_basic(int start_x, int start_y, sprite_t *sprite);
 
 int bullet_get_height(bullet_t *b);
 int bullet_get_width(bullet_t *b);
