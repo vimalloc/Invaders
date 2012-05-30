@@ -10,7 +10,7 @@
 /* How fast each of the various guns will be able to fire */
 #define BASIC_GUN_SPEED 20
 
-static gun_t* gun_init(int charge_rate, bullet_t* (*bullet_creator)(int, int, sprite_t)) {
+static gun_t* gun_init(int charge_rate, bullet_t* (*bullet_creator)(int, int, sprite_t*)) {
     gun_t* g;
 
     g = malloc(sizeof(gun_t));

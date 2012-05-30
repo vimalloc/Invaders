@@ -65,5 +65,11 @@ void* ll_get_item(ll_node_t *node);
  */
 ll_node_t* ll_get_first_node(ll_t *ll);
 
+/*
+ * Appends the contents of the first linked list onto the end of the
+ * second linked list.
+ */
+void ll_append_list(ll_t *l1, ll_t *l2);
+
 #endif
 

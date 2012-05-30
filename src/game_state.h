@@ -28,7 +28,8 @@ typedef struct {
     int player_move_left;   /* Indicates the player ship wants to move left */
     int player_move_right;  /* Indicates the player ship wants to move right */
     int player_fire;        /* Indicates the player ship wants to firing */
-    ll_t *bullets;          /* Linked list of all currently active bullets */
+    ll_t *player_bullets;   /* Linked list of all currently active bullets */
+    ll_t *alien_bullets;    /* Linked list of all currently active bullets */
     level_t *level;         /* Currently level being played */
 } game_state_t;
 

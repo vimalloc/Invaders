@@ -91,3 +91,13 @@ ll_node_t* ll_get_first_node(ll_t *ll) {
     return ll->head->next;
 }
 
+void ll_append_list(ll_t *l1, ll_t *l2) {
+    ll_node_t *node;
+
+    node = ll_get_first_node(l1);
+    while(node) {
+        ll_insert(l2, ll_get_item(node));
+        node = ll_next_node(l1, node);
+    }
+}
+

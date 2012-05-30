@@ -86,7 +86,7 @@ static void game_draw_bullets(game_t *g) {
     ll_node_t *node;
     bullet_t *bullet;
 
-    node = ll_get_first_node(g->state->bullets);
+    node = ll_get_first_node(g->state->player_bullets);
     while(node) {
         bullet = (bullet_t *)ll_get_item(node);
 
@@ -94,7 +94,18 @@ static void game_draw_bullets(game_t *g) {
         DestR.y = bullet->ypos;
         SDL_BlitSurface(sprite_get_basic_bullet()->pic, NULL, g->surface, &DestR);
 
-        node = ll_next_node(g->state->bullets, node);
+        node = ll_next_node(g->state->player_bullets, node);
+    }
+
+    node = ll_get_first_node(g->state->alien_bullets);
+    while(node) {
+        bullet = (bullet_t *)ll_get_item(node);
+
+        DestR.x = bullet->xpos;
+        DestR.y = bullet->ypos;
+        SDL_BlitSurface(sprite_get_basic_bullet()->pic, NULL, g->surface, &DestR);
+
+        node = ll_next_node(g->state->alien_bullets, node);
     }
 }
 

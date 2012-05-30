@@ -18,7 +18,8 @@ game_state_t* game_state_init() {
         system_error("malloc error on game_state_init");
 
     /* Init the linked list to hold bullets */
-    state->bullets = ll_init();
+    state->player_bullets = ll_init();
+    state->alien_bullets = ll_init();
 
     /* Load the players ship for this game */
     state->player_ship = ship_init(sprite_get_player_ship(), PLAYER_SPEED,
@@ -48,14 +49,23 @@ void game_state_free(game_state_t* state) {
 
     assert(state);
 
-    /* Free all of the bullets in memory from the linked list, then
+    /* Free all of the player bullets in memory from the linked list, then
      * free the linked list itself */
-    node = ll_get_first_node(state->bullets);
+    node = ll_get_first_node(state->player_bullets);
     while(node) {
         bullet_free((bullet_t*) ll_get_item(node));
-        node = ll_remove(state->bullets, node);
+        node = ll_remove(state->player_bullets, node);
     }
-    ll_free(state->bullets);
+    ll_free(state->player_bullets);
+
+    /* Free all of the alien bullets in memory from the linked list, then
+     * free the linked list itself */
+    node = ll_get_first_node(state->alien_bullets);
+    while(node) {
+        bullet_free((bullet_t*) ll_get_item(node));
+        node = ll_remove(state->alien_bullets, node);
+    }
+    ll_free(state->alien_bullets);
 
     ship_free(state->player_ship);
     level_free(state->level);
@@ -110,7 +120,7 @@ static void process_player_actions(game_state_t *state) {
 
         /* If a bullet was fired, add it to the bullets linked list */
         if(bullet) {
-            ll_insert(state->bullets, bullet);
+            ll_insert(state->player_bullets, bullet);
         }
     }
 }
@@ -132,11 +142,11 @@ static int bullet_out_of_screen(bullet_t *b) {
 }
 
 
-static void process_bullets(game_state_t *state) {
+static void process_player_bullets(game_state_t *state) {
     ll_node_t *node;
     bullet_t  *bullet;
 
-    node = ll_get_first_node(state->bullets);
+    node = ll_get_first_node(state->player_bullets);
     while(node) {
         /* Update positions */
         bullet = (bullet_t *) ll_get_item(node);
@@ -145,22 +155,53 @@ static void process_bullets(game_state_t *state) {
         /* If the bullet is out of the screen then free it.
          * Otherwise, check and process colisions */
         if(bullet_out_of_screen(bullet)) {
-            node = ll_remove(state->bullets, node);
+            node = ll_remove(state->player_bullets, node);
             bullet_free(bullet);
         }
         else if(level_process_colision(state->level, bullet)) {
-            node = ll_remove(state->bullets, node);
+            node = ll_remove(state->player_bullets, node);
             bullet_free(bullet);
         }
         else
-            node = ll_next_node(state->bullets, node);
+            node = ll_next_node(state->player_bullets, node);
+    }
+}
+
+static void process_alien_bullets(game_state_t *state) {
+    ll_node_t *node;
+    bullet_t  *bullet;
+
+    node = ll_get_first_node(state->alien_bullets);
+    while(node) {
+        /* Update positions */
+        bullet = (bullet_t *) ll_get_item(node);
+        bullet_update_position(bullet);
+
+        /* If the bullet is out of the screen then free it.
+         * Otherwise, check and process colisions */
+        if(bullet_out_of_screen(bullet)) {
+            node = ll_remove(state->alien_bullets, node);
+            bullet_free(bullet);
+        }
+        else
+            node = ll_next_node(state->alien_bullets, node);
     }
 }
 
 void game_state_update(game_state_t *state) {
+    ll_t *new_alien_bullets;
+
     update_gun_charge(state);      /* Update the guns charge */
     process_player_actions(state); /* Handle players input actions */
-    process_bullets(state);        /* Process gun fire movement and colisions */
+    process_player_bullets(state); /* Process gun fire movement and colisions */
 
-    /* TODO - Process alien actions */
+    /* Updates the game level by 1 tick, and add all of the new bullets that
+     * were fired to our alien_bullets list */
+    new_alien_bullets = level_update(state->level);
+    ll_append_list(new_alien_bullets, state->alien_bullets);
+    ll_free(new_alien_bullets);
+
+    /* Process the alien bullets */
+    process_alien_bullets(state);
 }
+

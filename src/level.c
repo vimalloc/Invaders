@@ -98,3 +98,28 @@ int level_process_colision(level_t *level, bullet_t *bullet) {
     return 0;
 }
 
+ll_t* level_update(level_t *level) {
+    ll_t *new_bullets; /* Container for new bullets that were fired */
+    bullet_t *bullet;
+    ll_node_t *node;
+    alien_t *alien;
+
+    new_bullets = ll_init();
+
+    /* Check if any of the aliens are firing their guns, and if they are append the
+     * new bullet to the new_bullets list */
+    node = ll_get_first_node(level->aliens);
+    while(node) {
+        alien = (alien_t*)ll_get_item(node);
+
+        gun_recharge(alien->ship->gun);
+        bullet = gun_fire(alien->ship->xpos, alien->ship->ypos, alien->ship->gun);
+        if(bullet)
+            ll_insert(new_bullets, (void *) bullet);
+
+        node = ll_next_node(level->aliens, node);
+    }
+
+    return new_bullets;
+}
+
