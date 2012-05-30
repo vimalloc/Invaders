@@ -17,7 +17,7 @@ typedef struct {
     volatile int running; /* Controls starting and stopping of a game */
     game_state_t *state;    /* The underlying state of the current game */
     SDL_Surface *surface; /* The surface where this game will be drawn */
-    SDL_Event *event;     /* Event handler for SDL */
+    SDL_Event event;     /* Event handler for SDL */
 } game_t;
 
 /* Used for sigaction wrapper */

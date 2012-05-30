@@ -21,10 +21,6 @@
 static game_t *g;
 
 static void game_sdl_init(game_t *g) {
-    g->event = malloc(sizeof(SDL_Event));
-    if(!g->event)
-        system_error("malloc error on game_sdl_init");
-
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
         app_error("SDL failed to init");
 
@@ -40,33 +36,33 @@ static void game_stop(game_t *g) {
 }
 
 static void game_handle_input(game_t *g) {
-    while(SDL_PollEvent(g->event)) {
-        if(g->event->type == SDL_QUIT)
+    while(SDL_PollEvent(&g->event)) {
+        if(g->event.type == SDL_QUIT)
             game_stop(g);
 
-        else if(g->event->type == SDL_KEYDOWN) {
-            if(g->event->key.keysym.sym == SDLK_UP)
+        else if(g->event.type == SDL_KEYDOWN) {
+            if(g->event.key.keysym.sym == SDLK_UP)
                 g->state->player_move_up = 1;
-            if(g->event->key.keysym.sym == SDLK_DOWN)
+            if(g->event.key.keysym.sym == SDLK_DOWN)
                 g->state->player_move_down = 1;
-            if(g->event->key.keysym.sym == SDLK_LEFT)
+            if(g->event.key.keysym.sym == SDLK_LEFT)
                 g->state->player_move_left = 1;
-            if(g->event->key.keysym.sym == SDLK_RIGHT)
+            if(g->event.key.keysym.sym == SDLK_RIGHT)
                 g->state->player_move_right = 1;
-            if(g->event->key.keysym.sym == SDLK_SPACE)
+            if(g->event.key.keysym.sym == SDLK_SPACE)
                 g->state->player_fire = 1;
         }
 
-        else if(g->event->type == SDL_KEYUP) {
-            if(g->event->key.keysym.sym == SDLK_UP)
+        else if(g->event.type == SDL_KEYUP) {
+            if(g->event.key.keysym.sym == SDLK_UP)
                 g->state->player_move_up = 0;
-            if(g->event->key.keysym.sym == SDLK_DOWN)
+            if(g->event.key.keysym.sym == SDLK_DOWN)
                 g->state->player_move_down = 0;
-            if(g->event->key.keysym.sym == SDLK_LEFT)
+            if(g->event.key.keysym.sym == SDLK_LEFT)
                 g->state->player_move_left = 0;
-            if(g->event->key.keysym.sym == SDLK_RIGHT)
+            if(g->event.key.keysym.sym == SDLK_RIGHT)
                 g->state->player_move_right = 0;
-            if(g->event->key.keysym.sym == SDLK_SPACE)
+            if(g->event.key.keysym.sym == SDLK_SPACE)
                 g->state->player_fire = 0;
         }
     }
