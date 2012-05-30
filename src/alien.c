@@ -25,6 +25,7 @@ alien_t* alien_basic_init(int xpos, int ypos) {
 
 void alien_free(alien_t *alien) {
     ship_free(alien->ship);
+    free(alien);
 }
 
 int alien_process_damage(alien_t *alien, int damage) {
