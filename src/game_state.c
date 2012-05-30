@@ -167,6 +167,51 @@ static void process_player_bullets(game_state_t *state) {
     }
 }
 
+/*
+ * Checks if this bullet colided with with the players ship. If a colision
+ * does a occure, the we will process it, and return 1. If no colision
+ * occurres we will return 0.
+ */
+static int player_hit (game_state_t *state, bullet_t *bullet) {
+    /*
+     * This is based on Charles Brentana's answer this stack overflow question:
+     * http://stackoverflow.com/questions/306316
+     *
+     * For visualization see: http://silentmatt.com/rectangle-intersection/
+     */
+
+    /*
+     * bx1 = bullets x position
+     * bx2 = bullets x position + bullet width
+     * by1 = bullets y position
+     * by2 = bullets y position + bullet height
+     * sx1 = player x posision
+     * sx2 = player x position + alien width
+     * sy1 = player y position
+     * sy2 = player y position + alien height
+     */
+    int bx1, bx2, by1, by2, sx1, sx2, sy1, sy2;
+    ship_t *player;
+
+    /* Get the poisionts of the bullets */
+    bx1 = bullet->xpos;
+    bx2 = bx1 + bullet_get_width(bullet);
+    by1 = bullet->ypos;
+    by2 = by1 + bullet_get_height(bullet);
+
+    /* Get everything from the player ship being processed */
+    player = state->player_ship;
+    sx1 = player->xpos;
+    sx2 = sx1 + ship_get_width(player);
+    sy1 = player->ypos;
+    sy2 = sy1 + ship_get_height(player);
+
+    /* Check for a colision */
+    if(bx1 < sx2 && bx2 > sx1 && by1 < sy2 && by2 > sy1)
+        return 1;
+    return 0;
+}
+
 static void process_alien_bullets(game_state_t *state) {
     ll_node_t *node;
     bullet_t  *bullet;
@@ -182,6 +227,10 @@ static void process_alien_bullets(game_state_t *state) {
         if(bullet_out_of_screen(bullet)) {
             node = ll_remove(state->alien_bullets, node);
             bullet_free(bullet);
+        }
+        else if(player_hit(state, bullet)) {
+            bullet_free(bullet);
+            node = ll_remove(state->alien_bullets, node);
         }
         else
             node = ll_next_node(state->alien_bullets, node);
