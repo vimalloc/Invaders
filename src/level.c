@@ -1,7 +1,11 @@
+#include <stdlib.h> /* rand and srand */
+#include <time.h>   /* seed for srand */
+
 #include "level.h"
 #include "errors.h"
 #include "alien.h"
 #include "bullet.h"
+
 
 /*
  * Function used to check if any of the given aliens are
@@ -14,15 +18,17 @@ static ll_t* basic_aliens_fire (level_t *level) {
     alien_t *alien;
 
     new_bullets = ll_init();
-
     node = ll_get_first_node(level->aliens);
     while(node) {
         alien = (alien_t*)ll_get_item(node);
-
         gun_recharge(alien->ship->gun);
-        bullet = gun_fire(alien->ship->xpos, alien->ship->ypos, alien->ship->gun);
-        if(bullet)
-            ll_insert(new_bullets, (void *) bullet);
+
+        /* Randomly determin if a gun will attempt to fire */
+        if((rand() % 100 + 1) == 1) {
+            bullet = gun_fire(alien->ship->xpos, alien->ship->ypos, alien->ship->gun);
+            if(bullet)
+                ll_insert(new_bullets, (void *) bullet);
+        }
 
         node = ll_next_node(level->aliens, node);
     }
@@ -34,6 +40,12 @@ level_t* level_create_basic() {
     int i, j; /* loop counters */
     level_t *level;
     alien_t *alien;
+
+    /* This is used for random bullet generation. We don't want to seed
+     * it in the actual fire_function, because we update fast enough
+     * that if we use the time as a seed we often see the same seed
+     * used over multiple ticks */
+    srand(time(NULL));
 
     level = malloc(sizeof(level_t));
     if(!level)
@@ -117,6 +129,7 @@ int level_process_colision(level_t *level, bullet_t *bullet) {
             if(alien_process_damage(alien, bullet->damage)) {
                 ll_remove(level->aliens, node);
                 alien_free(alien);
+                level->num_of_aliens--;
             }
             return 1;
         }
@@ -127,6 +140,9 @@ int level_process_colision(level_t *level, bullet_t *bullet) {
 }
 
 ll_t* level_update(level_t *level) {
+    if(level->num_of_aliens == 0)
+        level->complete = 1;
+
     return level->fire_function(level);
 }
 
