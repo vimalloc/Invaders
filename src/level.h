@@ -5,11 +5,18 @@
 #include "bullet.h"
 
 /* Forward declaration so we can have a pointer to a bullet_t in the struct */
-typedef struct {
+typedef struct level_t level_t;
+struct level_t {
     int complete;     /* Flag for if the level has been completed */
     int num_of_aliens; /* The number of aliens left in the level */
     ll_t *aliens;      /* List of all active aliens in this level */
-} level_t;
+
+    /* function pointer for the function which will create new
+     * bullets for this level. This function will return a
+     * linked list of new bullets that were fired */
+    ll_t* (*fire_function)(level_t *level);
+};
+
 
 level_t* level_create_basic();
 

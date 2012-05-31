@@ -3,6 +3,33 @@
 #include "alien.h"
 #include "bullet.h"
 
+/*
+ * Function used to check if any of the given aliens are
+ * firing. This is used for the basic level
+ */
+static ll_t* basic_aliens_fire (level_t *level) {
+    ll_t *new_bullets;
+    bullet_t *bullet;
+    ll_node_t *node;
+    alien_t *alien;
+
+    new_bullets = ll_init();
+
+    node = ll_get_first_node(level->aliens);
+    while(node) {
+        alien = (alien_t*)ll_get_item(node);
+
+        gun_recharge(alien->ship->gun);
+        bullet = gun_fire(alien->ship->xpos, alien->ship->ypos, alien->ship->gun);
+        if(bullet)
+            ll_insert(new_bullets, (void *) bullet);
+
+        node = ll_next_node(level->aliens, node);
+    }
+
+    return new_bullets;
+}
+
 level_t* level_create_basic() {
     int i, j; /* loop counters */
     level_t *level;
@@ -15,6 +42,7 @@ level_t* level_create_basic() {
     level->complete = 0;
     level->num_of_aliens = 40;
     level->aliens = ll_init();
+    level->fire_function = &basic_aliens_fire;
 
     /* Create the aliens on the screen */
     for(i=0; i<10; i++) {
@@ -99,27 +127,6 @@ int level_process_colision(level_t *level, bullet_t *bullet) {
 }
 
 ll_t* level_update(level_t *level) {
-    ll_t *new_bullets; /* Container for new bullets that were fired */
-    bullet_t *bullet;
-    ll_node_t *node;
-    alien_t *alien;
-
-    new_bullets = ll_init();
-
-    /* Check if any of the aliens are firing their guns, and if they are append the
-     * new bullet to the new_bullets list */
-    node = ll_get_first_node(level->aliens);
-    while(node) {
-        alien = (alien_t*)ll_get_item(node);
-
-        gun_recharge(alien->ship->gun);
-        bullet = gun_fire(alien->ship->xpos, alien->ship->ypos, alien->ship->gun);
-        if(bullet)
-            ll_insert(new_bullets, (void *) bullet);
-
-        node = ll_next_node(level->aliens, node);
-    }
-
-    return new_bullets;
+    return level->fire_function(level);
 }
 
