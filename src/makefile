@@ -1,4 +1,4 @@
-CC          = gcc
+CC          = clang
 CPPFLAGS   += -g -Wall -o $@
 SDL_CFLAGS  = `sdl-config --cflags`
 SDL_LIBS    = `sdl-config --libs`
